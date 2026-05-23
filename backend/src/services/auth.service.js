@@ -21,6 +21,39 @@ const existingUser = await userModel.findOne({ email })
 
 }
 
+const findOrCreateUser = async (userData, provider) => {
+  const { id, displayName, name, emails, photos } = userData;
+
+ 
+  const email = emails?.[0]?.value;
+  const businessName = name
+    ? `${name.givenName || ''} ${name.familyName || ''}`.trim()
+    : displayName;
+
+ 
+  const query = [
+    { googleId: id },
+    { githubId: id },
+  ]
+
+  if (email) query.push({ email })
+
+  const user = await userModel.findOne({ $or: query })
+  if (user) return user
+
+  // create new user
+  const newUser = await userModel.create({
+    businessName: businessName,
+    avatar: photos?.[0]?.value,
+    ...(email && { email }),
+    ...(provider === 'google' && { googleId: id }), // haha it works like when provider is google then only googleId field will be added to the user document and when provider is github then only githubId field will be added to the user document because ...true will add the object here and ...false will not add the object here
+    ...(provider === 'github' && { githubId: id }),
+  })
+
+  return newUser
+}
+
 export {
-    registerUserService
+    registerUserService,
+    findOrCreateUser
 }

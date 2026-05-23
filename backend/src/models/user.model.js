@@ -33,6 +33,11 @@ isVerified : {
 type : Boolean,
 default : false
 }, 
+provider : {
+type : String,
+enum : ["local", "google", "github"],
+default : "local"
+},
 verifyToken : String,
 verifyTokenExpiry : Date
 
