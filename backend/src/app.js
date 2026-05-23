@@ -1,6 +1,6 @@
 import express from 'express'
 import cookieParser from "cookie-parser"
-
+import passport from 'passport'
 import authRouter from './routes/auth.routes.js'
 import errHandler from './middlewares/errorHandler.middleware.js'
 
@@ -13,17 +13,18 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static("public"))
 
+// google strategy
+
+app.use(passport.initialize());
+
+
 
 /**
  * @description Routes
  */
  app.use("/api/auth" , authRouter)
 
-// google strategy
-
-// app.use(passport.initialize());
-
-
+/
 // error handler
 app.use(errHandler)
 
