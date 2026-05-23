@@ -16,8 +16,17 @@ function createRefreshToken(userId){
 } ,config.JWT_SECRET , {expiresIn : "7d"})
     return refreshToken;
 }
+function createToken(userId){
+    const token = jwt.sign({
+        id : userId
+} ,config.JWT_SECRET , {expiresIn : "1h"})
+    return token;
+}
+
+
 
 export {
     createAccessToken,
-    createRefreshToken
+    createRefreshToken, 
+    createToken
 }

@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js"
 import { registerUserService } from "../services/auth.service.js"
+import { sendEmail } from "../services/email.service.js"
 import { createAccessToken, createRefreshToken } from "../utils/generateToken.util.js"
 
 
@@ -22,6 +23,10 @@ const registerUserController = async(req , res ,next)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         })
 
+        const emailResponse = await sendEmail({
+            to : email, 
+            userId : response._id
+        })
         
         res.status(200).json({
             message : "user created successfully",
@@ -30,7 +35,8 @@ const registerUserController = async(req , res ,next)=>{
             email : response.email, 
             businessName : response.businessName, 
             accessToken : accessToken,
-            }
+            }, 
+            emailResponse : emailResponse
         })
 
 
@@ -42,6 +48,24 @@ const registerUserController = async(req , res ,next)=>{
     }
 }
 
+const verifyEmailController =  async (req, res) => {
+  const { token } = req.body;
+  console.log(token)
+  
+  const user = await userModel.findOne({ verifyToken: token });
+  console.log(user)
+  
+  if (!user) return res.status(400).json({ message: 'Invalid token' });
+  
+  user.isVerified = true;
+  user.verifyToken = undefined;
+  user.verifyTokenExpiry = undefined;
+  await user.save();
+  
+  res.json({ message: 'Email verified successfully' });
+}
+
 export {
-    registerUserController
+    registerUserController, 
+    verifyEmailController
 }
