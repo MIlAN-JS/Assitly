@@ -4,9 +4,15 @@ import './app/App.css'
 import App from './app/App.jsx'
 import { RouterProvider } from 'react-router-dom'
 import router from './app/App.routes.jsx'
+import { Provider } from 'react-redux'
+import { store } from './app/store.js'
 
 createRoot(document.getElementById('root')).render(
+  
   <StrictMode>
-     <RouterProvider router={router} />
+    <Provider store={store} >
+<RouterProvider router={router} />
+    </Provider>
+     
   </StrictMode>,
 )
