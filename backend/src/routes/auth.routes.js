@@ -1,12 +1,13 @@
 import {Router} from "express"
-import { registerUserController, verifyEmailController , getAccessTokenController, logoutController } from "../controllers/auth.controller.js"
-import { registerUserController, verifyEmailController , getAccessTokenController , loginUserController} from "../controllers/auth.controller.js"
+import { registerUserController, verifyEmailController , getAccessTokenController, logoutController, getCurrentUserController,loginUserController } from "../controllers/auth.controller.js"
+
 import { validateRegisterUser } from "../validators/auth.validator.js"
 import { googleCallbackController , githubCallbackController } from "../controllers/auth.controller.js"
 import passport from "../config/passport.config.js"
 const authRouter = Router()
 import userModel from "../models/user.model.js"
 import { checkUser } from "../middlewares/auth.middleware.js"
+
 /**
  * @route post /api/auth/register
  * @description Register a new user 
@@ -91,6 +92,15 @@ authRouter.get('/github/callback',passport.authenticate("github",{
  */
 
 authRouter.post('/logout', checkUser , logoutController);
+
+
+/**
+ * @route /api/auth/get-user
+ * @description Get current user details
+ * @access private
+ */
+
+authRouter.get("/get-user" , checkUser , getCurrentUserController)
 
 
 

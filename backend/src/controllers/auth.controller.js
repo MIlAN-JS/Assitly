@@ -263,6 +263,23 @@ const loginUserController = async (req, res, next) => {
   }
 }
 
+const getCurrentUserController = async (req, res) => {
+  try {
+    const userId= req.user;
+    console.log(userId)
+    const user = await userModel.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error cannot fetch user" });
+  }
+};
+
 
 
 
@@ -273,6 +290,6 @@ export {
     getAccessTokenController,
     githubCallbackController,
     logoutController,
-    githubCallbackController, 
-    loginUserController
+    loginUserController, 
+    getCurrentUserController
 }
