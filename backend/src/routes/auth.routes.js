@@ -1,7 +1,7 @@
 import {Router} from "express"
 import { registerUserController, verifyEmailController } from "../controllers/auth.controller.js"
 import { validateRegisterUser } from "../validators/auth.validator.js"
-import { googleCallbackController } from "../controllers/auth.controller.js"
+import { googleCallbackController , githubCallbackController } from "../controllers/auth.controller.js"
 import passport from "../config/passport.config.js"
 const authRouter = Router()
 import userModel from "../models/user.model.js"
@@ -23,8 +23,8 @@ authRouter.post('/verify-email',verifyEmailController);
 
 /**
  * @route api/auth/google
- * @description 
- * @access 
+ * @description google redirect route for authentication
+ * @access public
  */
 authRouter.get("/google",
     passport.authenticate("google", { scope: [ "profile", "email" ] })
@@ -32,12 +32,33 @@ authRouter.get("/google",
 
 /**
  * @route api/auth/google/callback
- * @description 
- * @access 
+ * @description  google callback route for authentication
+ * @access  public
  */
 authRouter.get('/google/callback',passport.authenticate("google",{
     session: false,
     failureRedirect: '/'
 }), googleCallbackController)
+
+/**
+ * @route api/auth/github
+ * @description github redirect route for authentication
+ * @access public
+ */
+
+authRouter.get("/github",
+    passport.authenticate("github", { scope: ["user:email"] })
+);
+
+/**
+ * @route /api/auth/github/callback
+ * @description github callback route for authentication
+ * @access public
+ */
+
+authRouter.get('/github/callback',passport.authenticate("github",{
+    session: false,
+    failureRedirect: '/'
+}), githubCallbackController)
 
 export default authRouter
