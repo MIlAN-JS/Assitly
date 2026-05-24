@@ -38,7 +38,8 @@ const registerUserController = async(req , res ,next)=>{
             businessName : response.businessName, 
             accessToken : accessToken,
             }, 
-            emailResponse : emailResponse
+            emailResponse : emailResponse, 
+            avatar : response.avatar
         })
 
 
@@ -173,10 +174,61 @@ const accessToken = createAccessToken(user._id);
   }
 };
 
+const loginUserController = async (req, res, next) => {
+  try {
+    const { email, password } = req.body
+
+    // check if user exists
+    const user = await userModel.findOne({ email })
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' })
+
+    // check if user registered with google/github
+    if (!user.password) return res.status(401).json({ message: 'Please login with Google or Github' })
+
+    // check if email is verified
+    if (!user.isVerified) return res.status(401).json({ message: 'Please verify your email first' })
+
+    // check password
+    const isMatch = await user.matchPassword(password)
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' })
+
+    // generate tokens
+    const accessToken = createAccessToken(user._id)
+    const refreshToken = createRefreshToken(user._id)
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
+
+    res.json({ 
+      accessToken,
+      message: 'Login successful',
+      success: true,
+       user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      isVerified: user.isVerified
+
+    }})
+
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+
+
 export {
     registerUserController, 
     verifyEmailController,
     googleCallbackController,
     getAccessTokenController,
-    githubCallbackController
+    githubCallbackController, 
+    loginUserController
 }
