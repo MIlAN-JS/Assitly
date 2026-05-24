@@ -91,7 +91,7 @@ authRouter.get('/github/callback',passport.authenticate("github",{
  * @access private
  */
 
-authRouter.post('/logout', checkUser , logoutController);
+authRouter.post('/logout' , checkUser,  logoutController);
 
 
 /**
@@ -108,7 +108,7 @@ authRouter.get("/get-user" , checkUser , getCurrentUserController)
  * @description to send verify email for forgot pass
  * @access public
  */
-authRouter.post("/forgot-password" , forgotPasswordController)
+authRouter.post("/forgot-password" , authLimiter , forgotPasswordController)
 
 /**
  * @route api/auth/reset-password

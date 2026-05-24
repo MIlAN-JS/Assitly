@@ -6,7 +6,8 @@ import rateLimit from "express-rate-limit"
 const checkUser = (req ,res, next)=>{
     try {
 
-        const accessToken = req.body.accessToken
+        const {accessToken} = req.body
+        console.log(accessToken)
     if(!accessToken){
         const err = new Error("Not authorized")
         err.statusCode = 401

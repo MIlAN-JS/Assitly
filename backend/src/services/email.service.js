@@ -27,8 +27,8 @@ try {
     }
    
    const url = emailType === "verifyEmail"
-  ? `http://localhost:5173/verify-email?token=${token}`
-  : `http://localhost:5173/reset-password?token=${token}`
+  ? `http://localhost:5174/verify-email?token=${token}`
+  : `http://localhost:5174/reset-password?token=${token}`
   const subject = emailType === "verifyEmail" ? "Verify your email for Assistly!!" : "Reset your Assistly password"
 
     const html = emailType === "verifyEmail" ? `
