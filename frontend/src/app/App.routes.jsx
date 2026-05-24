@@ -7,6 +7,8 @@ import PublicRoute from './PublicRoute.jsx'
 import PrivateRoute from './PrivateRoute.jsx'
 import LoginPage from '@/features/auth/ui/pages/LoginPage.jsx'
 import VerifyEmail from '@/features/auth/ui/pages/EmailVerifyPage.jsx'
+import ResetPassword from '@/features/auth/ui/pages/ResetPassword.jsx'
+import ForgotPassword from '@/features/auth/ui/pages/ForgotPassword.jsx'
 
 const router = createBrowserRouter([
     {
@@ -36,7 +38,16 @@ const router = createBrowserRouter([
                 {
                     path : "/verify-email", 
                     element: <PublicRoute><VerifyEmail/></PublicRoute>
-                }
+                }, 
+                {
+                    path : "/reset-password", 
+                    element: <PublicRoute><ResetPassword/></PublicRoute>
+                }, 
+                {
+                    path : "/forgot-password", 
+                    element: <PublicRoute><ForgotPassword/></PublicRoute>
+                }, 
+               
             ]
            }
            

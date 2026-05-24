@@ -84,10 +84,40 @@ const verifyEmail = async(token)=>{
 }
 
 
+const resetPasswordService = async({token , password})=>{
+  try {
+
+    const response = await api.post("reset-password", {
+      token : token, 
+      password
+    })
+
+    return response.data
+  } catch (error) {
+     console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  
+  }
+}
+const forgotPasswordService = async(email)=>{
+  try {
+
+    const response = await api.post("forgot-password", {email : email})
+    return response.data
+  } catch (error) {
+     console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  
+  }
+}
+
+
 export {
     registerUserService, 
     getAccessTokenService, 
     loginUserService, 
     logoutUserService, 
-    verifyEmail
+    verifyEmail, 
+    resetPasswordService, 
+    forgotPasswordService
 }
