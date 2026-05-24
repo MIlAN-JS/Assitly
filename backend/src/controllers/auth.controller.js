@@ -173,10 +173,53 @@ const accessToken = createAccessToken(user._id);
   }
 };
 
+const logoutController = async(req , res ,next)=>{
+    try {
+
+      console.log("logout check")
+        
+        const userId = req.user
+
+        // check if user exist 
+        const user = await userModel.findById(userId)
+        if(!user){
+            return res.status(400).json({
+                message : "Cannot find user", 
+                success : false
+            })
+        }
+
+        // fetch the token 
+
+        const refreshToken = req.cookies.refreshToken
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      });
+
+
+        res.status(200).json({
+            message : "logout success", 
+            success : true
+        })
+        
+
+
+    } catch (error) {
+         console.log(error , "logout error ")
+        next(error)
+       
+        
+    }
+}
+
 export {
     registerUserController, 
     verifyEmailController,
     googleCallbackController,
     getAccessTokenController,
-    githubCallbackController
+    githubCallbackController,
+    logoutController
 }
