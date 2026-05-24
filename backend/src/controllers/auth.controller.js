@@ -3,7 +3,8 @@ import { registerUserService } from "../services/auth.service.js"
 import { sendEmail } from "../services/email.service.js"
 import { createAccessToken, createRefreshToken } from "../utils/generateToken.util.js"
 import { findOrCreateUser } from "../services/auth.service.js"
-
+import jwt from "jsonwebtoken"
+import config from "../config/env.config.js"
 
 
 const registerUserController = async(req , res ,next)=>{
@@ -101,6 +102,41 @@ const verifyEmailController =  async (req, res) => {
   }
 };
 
+const getAccessTokenController = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies
+
+    if (!refreshToken) return res.status(401).json({ message: 'No refresh token' })
+
+    const decoded = jwt.verify(refreshToken, config.JWT_SECRET)
+
+
+    const user = await userModel.findById(decoded.id)
+
+   
+
+    if (!user && !user.isVerified ) {
+      return res.status(401).json({ message: 'Invalid refresh token' })
+    }
+
+    const newAccessToken = createAccessToken(user._id)
+
+    const newRefreshToken = createRefreshToken(user._id)
+
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: false, // Set to true in production (requires HTTPS)
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+
+    // send access token in response body, not cookie
+    res.json({ accessToken: newAccessToken })
+
+  } catch (error) {
+    next(error)
+  }
+}
  const githubCallbackController = async (req, res, next) => {
 
   try {
@@ -141,5 +177,6 @@ export {
     registerUserController, 
     verifyEmailController,
     googleCallbackController,
+    getAccessTokenController
     githubCallbackController
 }
