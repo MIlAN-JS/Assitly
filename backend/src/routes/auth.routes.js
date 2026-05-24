@@ -6,7 +6,7 @@ import { googleCallbackController , githubCallbackController } from "../controll
 import passport from "../config/passport.config.js"
 const authRouter = Router()
 import userModel from "../models/user.model.js"
-import { checkUser } from "../middlewares/auth.middleware.js"
+import { authLimiter, checkUser } from "../middlewares/auth.middleware.js"
 
 /**
  * @route post /api/auth/register
@@ -38,7 +38,7 @@ authRouter.post('/verify-email',verifyEmailController);
  * @access public
  */
 
-authRouter.post("/login", loginUserController)
+authRouter.post("/login", authLimiter ,  loginUserController)
 
 authRouter.get("/google",
     passport.authenticate("google", { scope: [ "profile", "email" ] })

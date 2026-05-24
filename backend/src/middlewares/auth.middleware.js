@@ -1,6 +1,7 @@
 
 import jwt from "jsonwebtoken"
 import config from "../config/env.config.js"
+import rateLimit from "express-rate-limit"
 
 const checkUser = (req ,res, next)=>{
     try {
@@ -25,7 +26,15 @@ const checkUser = (req ,res, next)=>{
 }
 
 
+const  authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // max 5 requests
+  message: { message: 'Too many attempts, please try again later' }
+})
+
+
 
 export  {
-    checkUser
+    checkUser,
+    authLimiter
 }
