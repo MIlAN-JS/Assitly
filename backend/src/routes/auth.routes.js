@@ -47,7 +47,9 @@ authRouter.get('/google/callback',passport.authenticate("google",{
  */
 
 authRouter.get('/get-access-token', getAccessTokenController)
- * @route api/auth/github
+
+
+ /* @route api/auth/github
  * @description github redirect route for authentication
  * @access public
  */

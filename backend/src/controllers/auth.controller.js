@@ -177,6 +177,6 @@ export {
     registerUserController, 
     verifyEmailController,
     googleCallbackController,
-    getAccessTokenController
+    getAccessTokenController,
     githubCallbackController
 }
