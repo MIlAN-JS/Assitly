@@ -2,6 +2,7 @@ import {createBrowserRouter} from 'react-router-dom'
 import App from '../app/App.jsx'
 import MainLayout from '../layouts/MainLayout.jsx'
 import BlankLayout from '../layouts/BlankLayout.jsx'
+import RegisterPage from '../features/auth/ui/pages/RegisterPage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
             children : [
                 {
                     path: "/dashboard",
-                    // element: <Dashboard />
+                    element: <h1>hello world</h1>
                 }
             ]
            }, 
@@ -21,8 +22,8 @@ const router = createBrowserRouter([
             element : <BlankLayout />,
             children : [
                 {
-                    path: "/login",
-                    // element: <Login />
+                    path: "/register",
+                   element : <RegisterPage/>
                 }
             ]
            }
