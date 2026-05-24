@@ -5,6 +5,7 @@ import { createAccessToken, createRefreshToken } from "../utils/generateToken.ut
 import { findOrCreateUser } from "../services/auth.service.js"
 import jwt from "jsonwebtoken"
 import config from "../config/env.config.js"
+import bcrypt from "bcryptjs"
 
 
 const registerUserController = async(req , res ,next)=>{
@@ -263,7 +264,7 @@ const loginUserController = async (req, res, next) => {
   }
 }
 
-const getCurrentUserController = async (req, res) => {
+const getCurrentUserController = async (req, res, next) => {
   try {
     const userId= req.user;
     console.log(userId)
@@ -276,11 +277,54 @@ const getCurrentUserController = async (req, res) => {
     res.status(200).json({ user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error cannot fetch user" });
+    next(error);
   }
 };
 
+const forgotPasswordController = async (req, res, next) => {
+  try {
+    const { email } = req.body
 
+    const user = await userModel.findOne({ email })
+    if (!user) return res.status(404).json({ message: 'User not found' })
+
+    // check if google/github user
+    if (!user.password) return res.status(400).json({ message: 'Please login with Google or Github' })
+
+    await sendEmail({ to: email, userId: user._id, emailType: 'forgotPassword' })
+
+    res.json({ message: 'Password reset email sent' })
+
+  } catch (error) {
+    console.log("error while forgoting pass", error)
+    next(error)
+  }
+}
+
+// POST /api/auth/reset-password
+const resetPasswordController = async (req, res, next) => {
+  try {
+    const { token, password } = req.body
+
+    const user = await userModel.findOne({
+      forgotPasswordToken: token,
+      forgotPasswordTokenExpiry: { $gt: Date.now() }
+    })
+
+    if (!user) return res.status(400).json({ message: 'Invalid or expired token' })
+
+    user.password =password
+    user.forgotPasswordToken = undefined
+    user.forgotPasswordTokenExpiry = undefined
+    await user.save()
+
+    res.json({ message: 'Password reset successful' })
+
+  } catch (error) {
+    console.log("error while resetting password")
+    next(error)
+  }
+}
 
 
 export {
@@ -291,5 +335,7 @@ export {
     githubCallbackController,
     logoutController,
     loginUserController, 
-    getCurrentUserController
+    getCurrentUserController, 
+    forgotPasswordController, 
+    resetPasswordController
 }

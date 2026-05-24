@@ -39,7 +39,9 @@ enum : ["local", "google", "github"],
 default : "local"
 },
 verifyToken : String,
-verifyTokenExpiry : Date
+verifyTokenExpiry : Date, 
+forgotPasswordToken : String,
+forgotPasswordTokenExpiry : Date
 
 }, { timestamps: true })
 

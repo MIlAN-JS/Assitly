@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { registerUserController, verifyEmailController , getAccessTokenController, logoutController, getCurrentUserController,loginUserController } from "../controllers/auth.controller.js"
+import { registerUserController, verifyEmailController , getAccessTokenController, logoutController, getCurrentUserController,loginUserController, forgotPasswordController, resetPasswordController } from "../controllers/auth.controller.js"
 
 import { validateRegisterUser } from "../validators/auth.validator.js"
 import { googleCallbackController , githubCallbackController } from "../controllers/auth.controller.js"
@@ -103,5 +103,18 @@ authRouter.post('/logout', checkUser , logoutController);
 authRouter.get("/get-user" , checkUser , getCurrentUserController)
 
 
+/**
+ * @route api/auth/forgot-password
+ * @description to send verify email for forgot pass
+ * @access public
+ */
+authRouter.post("/forgot-password" , forgotPasswordController)
+
+/**
+ * @route api/auth/reset-password
+ * @description to reset user's password
+ * @access public
+ */
+authRouter.post("/reset-password" , resetPasswordController)
 
 export default authRouter
