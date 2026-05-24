@@ -33,7 +33,7 @@ const useAuth = ()=>{
   window.location.href = "/api/auth/github";
 };
 
-const handleLoginUser = async ({ email, password }) => {
+      const handleLoginUser = async ({ email, password }) => {
 
         try {
             dispatch(authStart())
@@ -44,7 +44,7 @@ const handleLoginUser = async ({ email, password }) => {
         } catch (error) {
           console.log(error)
           dispatch(authFailure(error))
-          // toast.error(error)
+          toast.error(error)
         }
       }
 

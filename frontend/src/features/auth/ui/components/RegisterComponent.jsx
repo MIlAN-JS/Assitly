@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import useAuth from "../../hook/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { clearError } from "../../context/auth.slice";
 const AssistlyLogo = () => (
   <svg width="200" viewBox="0 0 520 120" className="block">
     <rect x="0" y="10" width="100" height="100" rx="22" fill="#1a3a2a" />
@@ -34,8 +34,15 @@ export default function RegisterComponent() {
   // hooks 
   const {error , user} = useSelector(state => state.auth)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   console.log(error)
   console.log(user)
+
+
+
+  useEffect(()=>{
+    dispatch(clearError())
+  },[])
   
 
   
@@ -54,7 +61,7 @@ export default function RegisterComponent() {
     
     setTimeout(() => {
       setLoading(false)
-      navigate("/")
+      navigate("/login")
 
     }, 2000);
   };
@@ -155,17 +162,14 @@ export default function RegisterComponent() {
     w-full px-4 py-3.5 rounded-xl outline-none transition-all text-[16px]
     border
     placeholder-gray-300
-    ${error 
-      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-      : "border-[#e0d9d0] focus:border-[#1A3A2A] focus:ring-2 focus:ring-[#1A3A2A]/20"
-    }
+    
   `}
 />
-{error && (
+{/* {error && (
   <p className="text-red-500 text-sm mt-2 animate-pulse">
     {error}
   </p>
-)}
+// )}  fix needed */}
             </div>
 
             {/* Password */}

@@ -6,6 +6,7 @@ import RegisterPage from '../features/auth/ui/pages/RegisterPage.jsx'
 import PublicRoute from './PublicRoute.jsx'
 import PrivateRoute from './PrivateRoute.jsx'
 import LoginPage from '@/features/auth/ui/pages/LoginPage.jsx'
+import VerifyEmail from '@/features/auth/ui/pages/EmailVerifyPage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
                 {
                     path: "/login", 
                     element: <PublicRoute><LoginPage/></PublicRoute>
+                }, 
+                {
+                    path : "/verify-email", 
+                    element: <PublicRoute><VerifyEmail/></PublicRoute>
                 }
             ]
            }

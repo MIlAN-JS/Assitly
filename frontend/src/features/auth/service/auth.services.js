@@ -67,10 +67,27 @@ const logoutUserService = async (accessToken) =>{
   }
 }
 
+const verifyEmail = async(token)=>{
+  try {
+
+    const response = await api.post("verify-email", {
+      token : token
+    })
+
+    return response.data
+  } catch (error) {
+     console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  
+  }
+  
+}
+
 
 export {
     registerUserService, 
     getAccessTokenService, 
     loginUserService, 
-    logoutUserService
+    logoutUserService, 
+    verifyEmail
 }
