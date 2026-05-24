@@ -15,6 +15,7 @@ const existingUser = await userModel.findOne({ email })
     _id: user._id,
     email: user.email,
     businessName: user.businessName,
+    avatar : user.avatar
   }
 
 
