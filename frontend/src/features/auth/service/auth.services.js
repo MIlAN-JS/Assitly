@@ -22,8 +22,24 @@ const registerUserService = async ({ businessName, email, password }) => {
   }
     
 }
+// this api fetches both access token and user data at the same time
+const getAccessTokenService = async()=>{
+
+  try {
+
+    const response = await api.get("/get-access-token")
+    console.log(response)
+    return response.data
+    
+  } catch (error) {
+    console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  }
+
+}
 
 
 export {
-    registerUserService
+    registerUserService, 
+    getAccessTokenService
 }

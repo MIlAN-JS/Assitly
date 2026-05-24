@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { authStart , authSuccess , authFailure , logout , clearError } from "../context/auth.slice.js";
-import { registerUserService , } from "../service/auth.services.js";
+import { getAccessTokenService, registerUserService , } from "../service/auth.services.js";
 import {toast} from "sonner"
 
 const useAuth = ()=>{
@@ -33,6 +33,20 @@ const useAuth = ()=>{
   window.location.href = "/api/auth/github";
 };
 
+// 
+const handleAccessToken = async()=>{
+try {
+    dispatch(authStart())
+    const response = await getAccessTokenService()
+    console.log(response)
+    dispatch(authSuccess(response.user))
+  
+} catch (error) {
+    // toast.error(error)
+    console.log(error)
+}
+}
+
 
      
 
@@ -41,7 +55,8 @@ const useAuth = ()=>{
 return {
     handleRegisterUser,
     handleGithubLogin,
-    handleGoogleLogin
+    handleGoogleLogin, 
+    handleAccessToken
 }
 
 }
