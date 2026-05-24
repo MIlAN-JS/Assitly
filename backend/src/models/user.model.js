@@ -27,7 +27,8 @@ githubId: {
   sparse: true // ✅ important
 },
 avatar : {
-type : String
+type : String,
+default : "https://imgs.search.brave.com/wJgxev260NPCUKLhqOw1Xv_yce1xbpNxYNEJu2vCkOw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY2LzE0/LzFkLzY2MTQxZGFl/NWI2Yjk3Nzc0ODQz/MTY0ZjRmMGFhMmUw/LmpwZw"
 },
 isVerified : {
 type : Boolean,

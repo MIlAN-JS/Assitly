@@ -16,15 +16,15 @@ const registerUserController = async(req , res ,next)=>{
         const response = await registerUserService({email , password ,businessName})
  
 
-        const accessToken= createAccessToken(response._id)
-        const refreshToken = createRefreshToken(response._id)
+        // const accessToken= createAccessToken(response._id)
+        // const refreshToken = createRefreshToken(response._id)
 
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: false, // Set to true in production (requires HTTPS)
-            sameSite: "strict",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        })
+        // res.cookie("refreshToken", refreshToken, {
+        //     httpOnly: true,
+        //     secure: false, // Set to true in production (requires HTTPS)
+        //     sameSite: "strict",
+        //     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        // })
 
         const emailResponse = await sendEmail({
             to : email, 
@@ -32,15 +32,16 @@ const registerUserController = async(req , res ,next)=>{
         })
         
         res.status(200).json({
-            message : "user created successfully",
-            user : {
-               id :  response._id,
-            email : response.email, 
-            businessName : response.businessName, 
-            accessToken : accessToken,
-            }, 
-            emailResponse : emailResponse, 
-            avatar : response.avatar
+            message : "user registered successfully",
+            success : true
+          //   user : {
+          //      id :  response._id,
+          //   email : response.email, 
+          //   businessName : response.businessName, 
+          // avatar : response.avatar
+          //   }, 
+          //   emailResponse : emailResponse, 
+            
         })
 
 
@@ -94,7 +95,7 @@ const verifyEmailController =  async (req, res) => {
   user.isVerified = true; // since google already verifies email so we can directly mark user as verified
   await user.save();
   
-  return res.redirect("http://localhost:5173/dashboard"); // changed from login to your route
+  return res.redirect("http://localhost:5174/"); // changed from login to your route
     
   } catch (error) {
 
@@ -133,7 +134,17 @@ const getAccessTokenController = async (req, res, next) => {
     })
 
     // send access token in response body, not cookie
-    res.json({ accessToken: newAccessToken })
+       res.status(200).json({
+            message : "user created successfully",
+            user : {
+               id :  user._id,
+            email : user.email, 
+            businessName : user.businessName, 
+            accessToken : newAccessToken,
+             avatar : user.avatar
+            }, 
+           
+        })
 
   } catch (error) {
     next(error)
@@ -165,7 +176,7 @@ const accessToken = createAccessToken(user._id);
   user.isVerified = true; // since google already verifies email so we can directly mark user as verified
   await user.save();
   
-  return res.redirect("http://localhost:5173/dashboard"); // changed from login to your route
+  return res.redirect("http://localhost:5174/"); // changed from login to your route
     
   } catch (error) {
 
@@ -178,7 +189,7 @@ const accessToken = createAccessToken(user._id);
 const logoutController = async(req , res ,next)=>{
     try {
 
-      console.log("logout check")
+     
         
         const userId = req.user
 
@@ -246,18 +257,20 @@ const loginUserController = async (req, res, next) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
-    res.json({ 
+    res.status(200).json({ 
       accessToken,
       message: 'Login successful',
       success: true,
        user: {
       id: user._id,
-      name: user.name,
+      businessName: user.businessName,
       email: user.email,
       avatar: user.avatar,
       isVerified: user.isVerified
 
     }})
+
+  
 
   } catch (error) {
     next(error)
