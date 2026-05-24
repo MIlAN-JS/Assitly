@@ -41,7 +41,7 @@ export default function RegisterComponent() {
   
   //custom hook 
 
-  const {handleRegisterUser} = useAuth()
+  const {handleRegisterUser , handleGithubLogin , handleGoogleLogin} = useAuth()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -90,7 +90,10 @@ export default function RegisterComponent() {
           {/* OAuth buttons */}
           <div className="flex flex-col gap-3 mb-7">
             <button
-              onClick={() => (window.location.href = "/api/auth/google")}
+              onClick={() => {
+                console.log("google clicked")
+                handleGoogleLogin()
+              }}
               className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-base font-medium transition-all hover:bg-gray-50 active:scale-95"
               style={{ border: "1px solid #e0d9d0", color: "#1A3A2A" }}
             >
@@ -98,7 +101,7 @@ export default function RegisterComponent() {
               Continue with Google
             </button>
             <button
-              onClick={() => (window.location.href = "/api/auth/github")}
+              onClick={() => {handleGithubLogin()}}
               className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-base font-medium transition-all hover:bg-gray-50 active:scale-95"
               style={{ border: "1px solid #e0d9d0", color: "#1A3A2A" }}
             >

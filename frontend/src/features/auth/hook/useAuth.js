@@ -24,12 +24,24 @@ const useAuth = ()=>{
           toast.error(error)
         }
       }
+
+      const handleGoogleLogin = () => {
+        window.location.href = "/api/auth/google";
+      };
+
+      const handleGithubLogin = () => {
+  window.location.href = "/api/auth/github";
+};
+
+
      
 
 
 
 return {
     handleRegisterUser,
+    handleGithubLogin,
+    handleGoogleLogin
 }
 
 }
