@@ -137,10 +137,46 @@ const getAccessTokenController = async (req, res, next) => {
     next(error)
   }
 }
+ const githubCallbackController = async (req, res, next) => {
+
+  try {
+
+    const userData = req.user;
+
+  if (!userData) {
+    return res.redirect("http://localhost:5173/login");
+  }
+
+
+
+  const user = await findOrCreateUser(userData , "github");
+const accessToken = createAccessToken(user._id);
+  const refreshToken = createRefreshToken(user._id);
+
+
+ res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false, // 🔥 set true in production (HTTPS)
+    sameSite: "lax",
+  });
+
+  user.isVerified = true; // since google already verifies email so we can directly mark user as verified
+  await user.save();
+  
+  return res.redirect("http://localhost:5173/dashboard"); // changed from login to your route
+    
+  } catch (error) {
+
+    console.log(error)
+    next(error)
+    
+  }
+};
 
 export {
     registerUserController, 
     verifyEmailController,
     googleCallbackController,
     getAccessTokenController
+    githubCallbackController
 }
