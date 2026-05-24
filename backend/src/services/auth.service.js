@@ -1,4 +1,6 @@
 import userModel from "../models/user.model.js"
+import crypto from "crypto"
+import { sendEmail } from "./email.service.js"
 
 const registerUserService = async({email, password, businessName})=>{
 
@@ -54,6 +56,8 @@ const findOrCreateUser = async (userData, provider) => {
 
   return newUser
 }
+
+
 
 export {
     registerUserService,
