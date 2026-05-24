@@ -5,6 +5,7 @@ import BlankLayout from '../layouts/BlankLayout.jsx'
 import RegisterPage from '../features/auth/ui/pages/RegisterPage.jsx'
 import PublicRoute from './PublicRoute.jsx'
 import PrivateRoute from './PrivateRoute.jsx'
+import LoginPage from '@/features/auth/ui/pages/LoginPage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
                 {
                     path: "/register",
                    element :<PublicRoute><RegisterPage/></PublicRoute> 
+                }, 
+                {
+                    path: "/login", 
+                    element: <PublicRoute><LoginPage/></PublicRoute>
                 }
             ]
            }

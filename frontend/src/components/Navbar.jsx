@@ -105,7 +105,7 @@ const Navbar = () => {
             >
               {/* Avatar Circle */}
               <div className="w-9 h-9 rounded-full bg-[#1a3a2a] flex items-center justify-center text-white text-sm font-semibold overflow-hidden">
-               <img src={user?.user?.avatar} alt=""  />
+               <img src={user?.avatar} alt=""  />
               </div>
               {/* Chevron */}
               <svg
@@ -137,8 +137,8 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setDropdownOpen(false);
-                    // handle logout
-                      handleLogoutUser();
+                    
+                      handleLogoutUser(user.accessToken);
                   }}
                   className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition"
                 >
@@ -195,7 +195,9 @@ const Navbar = () => {
             {isLoggedIn ? (
               <button
                 className="w-full text-red-600 text-sm font-medium border border-red-200 py-2.5 rounded-md hover:bg-red-50 transition"
-                onClick={() => {/* handle logout */}}
+                onClick={() => {
+                    handleLogoutUser(user.accessToken)
+                }}
               >
                 Logout
               </button>

@@ -8,6 +8,7 @@ const api = axios.create({
 
 
 
+
 const registerUserService = async ({ businessName, email, password }) => {
 
   try {
@@ -38,8 +39,38 @@ const getAccessTokenService = async()=>{
 
 }
 
+const loginUserService = async ({ email, password }) => {
+
+  try {
+      const response = await api.post("/login", { email, password })
+      console.log(response.data.user)
+    return response.data
+
+  } catch (error) {
+    console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  }
+    
+}
+
+const logoutUserService = async (accessToken) =>{
+  try {
+    console.log(accessToken)
+    const response = await api.post("/logout" , {
+      accessToken : accessToken
+    })
+    return response.data
+  } catch (error) {
+     console.log(error.response.data.message)
+    throw error?.response?.data?.message
+  
+  }
+}
+
 
 export {
     registerUserService, 
-    getAccessTokenService
+    getAccessTokenService, 
+    loginUserService, 
+    logoutUserService
 }
