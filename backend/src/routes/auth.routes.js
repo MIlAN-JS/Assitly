@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { registerUserController, verifyEmailController , getAccessTokenController } from "../controllers/auth.controller.js"
+import { registerUserController, verifyEmailController , getAccessTokenController , loginUserController} from "../controllers/auth.controller.js"
 import { validateRegisterUser } from "../validators/auth.validator.js"
 import { googleCallbackController , githubCallbackController } from "../controllers/auth.controller.js"
 import passport from "../config/passport.config.js"
@@ -18,14 +18,25 @@ authRouter.post("/register" ,validateRegisterUser , registerUserController)
  * @access registered users
  */
 
+
+
 authRouter.post('/verify-email',verifyEmailController);
 
 
 /**
- * @route api/auth/google
+ * @route /api/auth/google
  * @description google redirect route for authentication
  * @access public
+*/
+
+/**
+ * @route /api/auth/google
+ * @description google redirect route for login user
+ * @access public
  */
+
+authRouter.post("/login", loginUserController)
+
 authRouter.get("/google",
     passport.authenticate("google", { scope: [ "profile", "email" ] })
 );
