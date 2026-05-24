@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { registerUserController, verifyEmailController } from "../controllers/auth.controller.js"
+import { registerUserController, verifyEmailController , getAccessTokenController } from "../controllers/auth.controller.js"
 import { validateRegisterUser } from "../validators/auth.validator.js"
 import { googleCallbackController } from "../controllers/auth.controller.js"
 import passport from "../config/passport.config.js"
@@ -39,5 +39,13 @@ authRouter.get('/google/callback',passport.authenticate("google",{
     session: false,
     failureRedirect: '/'
 }), googleCallbackController)
+
+/**
+ * @route /api/auth/get-access-token
+ * @description to get access token using refresh token
+ * @access  private
+ */
+
+authRouter.get('/get-access-token', getAccessTokenController)
 
 export default authRouter
