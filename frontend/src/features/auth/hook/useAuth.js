@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { authStart , authSuccess , authFailure , logout , clearError } from "../context/auth.slice.js";
 import { registerUserService , } from "../service/auth.services.js";
-
+import {toast} from "sonner"
 
 const useAuth = ()=>{
 
@@ -13,15 +13,15 @@ const useAuth = ()=>{
 
         try {
             dispatch(authStart())
-            const response = await registerUserService({ name, email, password })
+            const response = await registerUserService({ businessName, email, password })
             console.log(response)
             dispatch(authSuccess(response.user))
-  
+            toast.success("Register success !! please verify you email ")
+           
         } catch (error) {
-          console.log(error)
-          dispatch(authFailure(error.message))
-          
-          
+          console.log("error is ", error)
+          dispatch(authFailure(error))
+          toast.error(error)
         }
       }
      

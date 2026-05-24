@@ -11,12 +11,13 @@ const api = axios.create({
 const registerUserService = async ({ businessName, email, password }) => {
 
   try {
+    console.log(businessName)
       const response = await api.post("/register", { businessName, email, password })
     return response.data
 
   } catch (error) {
-    console.log(error)
-    throw error
+    console.log(error.response.data.message)
+    throw error?.response?.data?.message
     
   }
     

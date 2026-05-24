@@ -5,7 +5,7 @@ const BlankLayout = () => {
   console.log("inside bl")
   return (
     <div>
-<h1>bl</h1>
+
         <Outlet />
       
     </div>
