@@ -5,6 +5,7 @@ import authRouter from './routes/auth.routes.js'
 import errHandler from './middlewares/errorHandler.middleware.js'
 import botRouter from './routes/bot.routes.js'
 import faqRouter from './routes/faq.routes.js'
+import pdfRouter from './routes/pdf.routes.js'
 
 
 
@@ -31,6 +32,7 @@ app.use(passport.initialize());
  app.use("/api/auth" , authRouter)
  app.use("/api/bot",   botRouter)
 app.use("/api/faq", faqRouter)
+app.use("/api/pdf", pdfRouter)
 
 /
 // error handler
