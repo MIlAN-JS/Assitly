@@ -10,7 +10,6 @@ const botSchema = new mongoose.Schema({
   }, 
   systemPrompt: {
     type: String,
-    required: true, 
     default : "act as a customer support for a business."
   },
  customBotId: {
@@ -69,6 +68,7 @@ widgetSettings: {
     default: true       // false = paid plan only
   }
 },
+
 }, {timestamps:true})
 
 

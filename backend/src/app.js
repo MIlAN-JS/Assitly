@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import passport from 'passport'
 import authRouter from './routes/auth.routes.js'
 import errHandler from './middlewares/errorHandler.middleware.js'
+import botRouter from './routes/bot.routes.js'
 
 
 const app = express()
@@ -25,6 +26,7 @@ app.use(passport.initialize());
  * @description Routes
  */
  app.use("/api/auth" , authRouter)
+ app.use("/api/bot", botRouter)
 
 
 /
