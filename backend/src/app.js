@@ -6,6 +6,7 @@ import errHandler from './middlewares/errorHandler.middleware.js'
 import botRouter from './routes/bot.routes.js'
 import faqRouter from './routes/faq.routes.js'
 import pdfRouter from './routes/pdf.routes.js'
+import conversationRouter from './routes/conversation.route.js'
 
 
 
@@ -33,7 +34,7 @@ app.use(passport.initialize());
  app.use("/api/bot",   botRouter)
 app.use("/api/faq", faqRouter)
 app.use("/api/pdf", pdfRouter)
-
+app.use("/api/conversation", conversationRouter)
 /
 // error handler
 app.use(errHandler)

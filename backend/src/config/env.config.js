@@ -18,7 +18,9 @@ const config = {
    IMAGEKIT_PUBLIC_KEY : process.env.IMAGEKIT_PUBLIC_KEY, 
    IMAGEKIT_ENDPOINT : process.env.IMAGEKIT_ENDPOINT, 
    MISTRAL_API_KEY : process.env.MISTRAL_API_KEY, 
-   PINECONE_API_KEY : process.env.PINECONE_API_KEY
+   PINECONE_API_KEY : process.env.PINECONE_API_KEY, 
+   GEMINI_API_KEY:process.env.GEMINI_API_KEY, 
+   GROQ_API_KEY : process.env.GROQ_API_KEY
 }
 
 

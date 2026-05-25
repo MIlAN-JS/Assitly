@@ -5,12 +5,14 @@ const pdfUploadController = async(req , res , next)=>{
     try {
 
         const botId = req.params.botId
+        const businessId = req.user
         const questionPdf = req.file
         console.log(questionPdf)
         //todo : a service to upload pdf to pinecone  
+ 
 
-        // const pdfData = await uploadPdfService(questionPdf.path)
-        const result = await queryPinecone()
+        const result = await uploadPdfService({pdf : questionPdf.path , businessId})
+       
 
         if (!result) {
             return res.status(400).json({

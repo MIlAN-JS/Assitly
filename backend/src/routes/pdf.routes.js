@@ -18,8 +18,6 @@ pdfRouter.use(checkUser)
 
 
 
-
-
 pdfRouter.post("/upload-pdf/:botId",upload.single("questionPdf"), pdfUploadController)
 
 
