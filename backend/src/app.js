@@ -4,6 +4,7 @@ import passport from 'passport'
 import authRouter from './routes/auth.routes.js'
 import errHandler from './middlewares/errorHandler.middleware.js'
 
+
 const app = express()
 
 
@@ -24,6 +25,7 @@ app.use(passport.initialize());
  * @description Routes
  */
  app.use("/api/auth" , authRouter)
+
 
 /
 // error handler

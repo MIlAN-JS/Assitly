@@ -39,6 +39,7 @@ type : String,
 enum : ["local", "google", "github"],
 default : "local"
 },
+plan: { type: String, enum: ['free'], default: 'free' },
 verifyToken : String,
 verifyTokenExpiry : Date, 
 forgotPasswordToken : String,
