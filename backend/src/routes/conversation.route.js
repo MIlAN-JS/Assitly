@@ -9,7 +9,7 @@ const conversationRouter = express.Router()
 
 
 
-conversationRouter.post("/chat/:botId", chatController)
+conversationRouter.post("/chat/:botId",chatController)
 
 
 export default conversationRouter

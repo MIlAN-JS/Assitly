@@ -28,8 +28,27 @@ const createBotController = async (req, res , next) => {
     }
   }
 
+  const getBotController = async(req , res, next)=>{
+    try {
+
+      const botId = req.params.botId
+
+      const bot = await botModel.findById(botId)
+
+      res.status(200).json({
+        message : "bot fetched successfully",
+        success : true,
+        bot
+      })
+      
+    } catch (error) {
+      
+    }
+  }
+
 
 
   export {
-    createBotController
+    createBotController, 
+    getBotController
   }

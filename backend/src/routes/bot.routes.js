@@ -1,7 +1,7 @@
 // routes/bot.routes.js
 import { Router } from "express"
 import { checkUser } from "../middlewares/auth.middleware.js"
-import { createBotController } from "../controllers/bot.controller.js"
+import { createBotController, getBotController } from "../controllers/bot.controller.js"
 import multer from "multer"
 const botRouter = Router()
 
@@ -13,8 +13,6 @@ const upload = multer({
 });
 
 
-// all bot routes are protected
-botRouter.use(checkUser)  // ← applies checkUser to all routes below
 
 /**
  * @route /api/bot/create-bot
@@ -22,8 +20,8 @@ botRouter.use(checkUser)  // ← applies checkUser to all routes below
  * @access private 
  */
 
-botRouter.post("/create-bot",upload.single("image") , createBotController )
-
+botRouter.post("/create-bot",upload.single("image") ,checkUser, createBotController )
+botRouter.get("/get-bot", getBotController )
 
 
 

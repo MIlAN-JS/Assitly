@@ -8,9 +8,12 @@ import faqRouter from './routes/faq.routes.js'
 import pdfRouter from './routes/pdf.routes.js'
 import conversationRouter from './routes/conversation.route.js'
 
-
+import cors from "cors"
 
 const app = express()
+
+
+
 
 // setting up multer
 
@@ -20,7 +23,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static("public"))
-
+app.use(cors({
+  origin: "*"
+}));
 // google strategy
 
 app.use(passport.initialize());
@@ -34,7 +39,8 @@ app.use(passport.initialize());
  app.use("/api/bot",   botRouter)
 app.use("/api/faq", faqRouter)
 app.use("/api/pdf", pdfRouter)
-app.use("/api/conversation", conversationRouter)
+app.use("/api/bot", conversationRouter)
+
 /
 // error handler
 app.use(errHandler)

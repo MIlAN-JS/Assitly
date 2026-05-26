@@ -11,12 +11,13 @@ import { json } from "express";
 
 
 const chatController = async(req , res , next)=>{
+    
     try {
 
         console.log("work started")
         const visitorId = req.body.visitorId
         const sessionId = req.body.sessionId
-        const message = req.body.message
+        const message =req.body.message
         const customBotId = req.params.botId
 
         console.log(message) 
@@ -62,9 +63,9 @@ const chatController = async(req , res , next)=>{
 console.log(aiResponse)
 
 res.status(201).json({
-    message : "conversation created successfully",
+    message : aiResponse,
     success : true,
-    aiResponse
+    
 })
 
 
