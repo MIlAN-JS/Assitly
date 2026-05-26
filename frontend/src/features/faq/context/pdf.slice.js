@@ -32,7 +32,7 @@ const pdfSlice = createSlice({
             state.success = false
             state.pdf = null
         }, 
-        clearError : (state , action)=>{
+        pdfClearError : (state , action)=>{
             state.error = null
         }
     }
@@ -40,5 +40,5 @@ const pdfSlice = createSlice({
 
 
 
-export const {pdfStart , pdfSuccess , pdfFailure , clearError} = faqSlice.actions
+export const {pdfStart , pdfSuccess , pdfFailure , pdfClearError} = pdfSlice.actions
 export default pdfSlice.reducer

@@ -11,6 +11,7 @@ import ResetPassword from '@/features/auth/ui/pages/ResetPassword.jsx'
 import ForgotPassword from '@/features/auth/ui/pages/ForgotPassword.jsx'
 import Dashboard from '@/features/dashboard/ui/Dashboard.jsx'
 import CreateBotPage from '@/features/bot/ui/CreateBot.jsx'
+import FaqsPage from '@/features/faq/ui/CreateFaq.jsx'
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
                 {
                     path: "/create-bot",
                     element:<PrivateRoute><CreateBotPage/></PrivateRoute> 
+                }, 
+                {
+                    path : "/create-faq", 
+                    element : <PrivateRoute><FaqsPage/></PrivateRoute>
                 }
             ]
            }, 
