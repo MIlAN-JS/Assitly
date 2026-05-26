@@ -1,4 +1,5 @@
 
+import botModel from "../models/bot.model.js"
 import {createBotService} from "../services/bot.service.js"
 import uploadImageService from "../services/uploadFile.service.js"
 
@@ -30,10 +31,18 @@ const createBotController = async (req, res , next) => {
 
   const getBotController = async(req , res, next)=>{
     try {
-
+console.log("inside get bot")
       const botId = req.params.botId
 
-      const bot = await botModel.findById(botId)
+      const bot = await botModel.findOne({customBotId : botId})
+      console.log(bot)
+
+      if(!bot){
+        return res.status(404).json({
+          message : "bot not found",
+          success : false
+        })
+      }
 
       res.status(200).json({
         message : "bot fetched successfully",
@@ -42,6 +51,8 @@ const createBotController = async (req, res , next) => {
       })
       
     } catch (error) {
+
+       next(error)
       
     }
   }

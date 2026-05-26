@@ -16,6 +16,7 @@ const groqModel = new ChatGroq({
 })
 
 
+
 const chatWithAi = async (message) => {
     console.log("start to send msg to ai ")
   const response = await groqModel.invoke(message)
