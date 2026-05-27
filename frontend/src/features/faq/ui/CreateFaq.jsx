@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner";
 import useFaq from "../hook/useFaq";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 // ─── Props expected ────────────────────────────────────────────────────────
@@ -273,6 +274,12 @@ console.log(valid)
    
   };
 
+  const handleSubmit = async () => {
+    faqs.length>0 && await submitFaqs();
+    pdf && await submitPdf();
+
+  };
+
   const filledCount = faqs.filter((f) => f.question.trim() && f.answer.trim()).length;
 
   return (
@@ -335,7 +342,7 @@ console.log(valid)
                   <span className="font-bold text-[#1E3A2F]">{filledCount}</span> of {faqs.length} complete
                 </span>
               </div>
-              <button
+              {/* <button
                 onClick={submitFaqs}
                 disabled={faqLoading || faqSaved}
                 className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all ${
@@ -357,7 +364,7 @@ console.log(valid)
                 ) : (
                   <>Save FAQs <RiCheckLine size={15} /></>
                 )}
-              </button>
+              </button> */}
             </div>
           )}
         </SectionCard>
@@ -391,7 +398,7 @@ console.log(valid)
           </div>
 
           <div className="px-6 pb-6 flex justify-end">
-            <button
+            {/* <button
               onClick={submitPdf}
               disabled={!pdf || pdfLoading || pdfSaved}
               className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all ${
@@ -413,9 +420,21 @@ console.log(valid)
               ) : (
                 <><RiUploadCloud2Line size={16} /> Upload PDF</>
               )}
-            </button>
+            </button> */}
           </div>
         </SectionCard>
+
+        <div className=" flex items-center justify-center ">
+            <Link
+            to="/dashboard"
+            onClick={()=>{
+                handleSubmit()
+            }}
+            className="bg-[#1F392F] text-white py-4 px-6  rounded-lg">
+          Save Data
+
+        </Link>
+        </div>
 
         <p className="text-center text-xs text-[#9A9289] pb-4">
           Need help?{" "}
