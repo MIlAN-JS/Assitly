@@ -4,12 +4,15 @@ import { queryPinecone, uploadPdfService } from "../services/vector.service.js"
 const pdfUploadController = async(req , res , next)=>{
     try {
 
-        const botId = req.params.botId
+      
         const businessId = req.user
+
+
         const questionPdf = req.file
         console.log(questionPdf)
-        //todo : a service to upload pdf to pinecone  
- 
+
+    
+            // todo : store pdf in db
 
         const result = await uploadPdfService({pdf : questionPdf.path , businessId})
        
@@ -25,7 +28,7 @@ const pdfUploadController = async(req , res , next)=>{
         res.status(201).json({
             message : "pdf uploaded successfully",
             success : true,
-          
+            pdf : true 
         })
         
     } catch (error) {

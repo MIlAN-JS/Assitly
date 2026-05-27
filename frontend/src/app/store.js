@@ -1,9 +1,16 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/context/auth.slice.js"
-
-export const store = configureStore({
+import botReducer from "../features/bot/context/bot.slice.js"
+import faqReducer from "../features/faq/context/faq.slice.js"
+import pdfReducer from "../features/faq/context/pdf.slice.js"
+ const store = configureStore({
   reducer: {
-    auth: authReducer
+    auth: authReducer, 
+    bot : botReducer, 
+    faq : faqReducer, 
+    pdf : pdfReducer
   },
 });
+
+export default store

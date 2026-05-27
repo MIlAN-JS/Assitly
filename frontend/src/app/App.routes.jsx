@@ -9,6 +9,9 @@ import LoginPage from '@/features/auth/ui/pages/LoginPage.jsx'
 import VerifyEmail from '@/features/auth/ui/pages/EmailVerifyPage.jsx'
 import ResetPassword from '@/features/auth/ui/pages/ResetPassword.jsx'
 import ForgotPassword from '@/features/auth/ui/pages/ForgotPassword.jsx'
+import Dashboard from '@/features/dashboard/ui/Dashboard.jsx'
+import CreateBotPage from '@/features/bot/ui/CreateBot.jsx'
+import FaqsPage from '@/features/faq/ui/CreateFaq.jsx'
 
 const router = createBrowserRouter([
     {
@@ -20,7 +23,15 @@ const router = createBrowserRouter([
             children : [
                 {
                     path: "/dashboard",
-                    element:<PrivateRoute><h1>hello world</h1></PrivateRoute> 
+                    element:<PrivateRoute><Dashboard/></PrivateRoute> 
+                },
+                {
+                    path: "/create-bot",
+                    element:<PrivateRoute><CreateBotPage/></PrivateRoute> 
+                }, 
+                {
+                    path : "/create-faq", 
+                    element : <PrivateRoute><FaqsPage/></PrivateRoute>
                 }
             ]
            }, 

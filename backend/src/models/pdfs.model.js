@@ -18,28 +18,16 @@ const pdfSchema = new mongoose.Schema({
   // file info
   title: {
     type: String,
-    required: true       // original filename
+    required: true       
   },
   fileSize: {
-    type: Number,        // in bytes
+    type: Number,       
   },
 
-  // pinecone references
-  pineconeIds: {
-    type: [String],      // array of chunk vector IDs
-    default: []
-  },
-  totalChunks: {
-    type: Number,        // how many chunks were created
-    default: 0
-  },
+  
+  
 
-  // status
-  status: {
-    type: String,
-    enum: ["processing", "ready", "failed"],
-    default: "processing"  // processing until pinecone is done
-  },
+  
 
 }, { timestamps: true })
 

@@ -18,7 +18,7 @@ pdfRouter.use(checkUser)
 
 
 
-pdfRouter.post("/upload-pdf/:botId",upload.single("questionPdf"), pdfUploadController)
+pdfRouter.post("/upload-pdf",upload.single("questionPdf"), pdfUploadController)
 
 
 export default pdfRouter

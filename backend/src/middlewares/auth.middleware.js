@@ -33,7 +33,7 @@ const checkUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     const accessToken = authHeader?.split(" ")[1];
-
+console.log(accessToken)
     if (!accessToken) {
       return res.status(401).json({
         message: "Not authorized, token missing"

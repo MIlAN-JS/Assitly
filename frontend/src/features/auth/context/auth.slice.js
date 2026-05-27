@@ -5,6 +5,7 @@ const initialState = {
     error : null, 
     loading : true , 
     success : false,
+    initialized : false ,
     isAuthenticated : false
 }
 
@@ -20,6 +21,7 @@ const authSlice = createSlice ({
 
             state.loading = true 
             state.error = null
+            state.initialized = false
             
 
         },
@@ -30,6 +32,7 @@ const authSlice = createSlice ({
             state.user = action.payload
             state.isAuthenticated = true
             state.error = null
+            state.initialized = true
         },
 
         //login failure
@@ -39,6 +42,7 @@ const authSlice = createSlice ({
             state.user = null
             state.isAuthenticated = false
             state.error = action.payload
+            state.initialized = true
         },
        
 

@@ -4,8 +4,8 @@ import { createFaqController } from "../controllers/createFaq.controller.js";
 
 const faqRouter = Router()
 
-faqRouter.post("/create-faq/:botId",checkUser, createFaqController );
+faqRouter.post("/create-faq",checkUser, createFaqController );
 
-
+ 
 
 export default faqRouter

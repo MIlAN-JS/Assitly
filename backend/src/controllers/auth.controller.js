@@ -118,7 +118,7 @@ const getAccessTokenController = async (req, res, next) => {
 
    
 
-    if (!user && !user.isVerified ) {
+    if (!user || !user.isVerified ) {
       return res.status(401).json({ message: 'Invalid refresh token' })
     }
 
