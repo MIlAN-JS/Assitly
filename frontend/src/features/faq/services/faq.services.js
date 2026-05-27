@@ -17,10 +17,10 @@ const createFaq = async({faqs , businessId})=>{
 
 
 
-const  uploadPdf = async ({ pdf , businessId})=>{
+const  uploadPdf = async ({ pdf })=>{
     try {
         const formData = new FormData();
-        formData.append("pdf", pdf);
+        formData.append("questionPdf", pdf);
         const response = await api.post(`/pdf/upload-pdf`, formData);
         return response.data
         

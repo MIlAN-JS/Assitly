@@ -6,11 +6,13 @@ const pdfUploadController = async(req , res , next)=>{
 
       
         const businessId = req.user
+
+
         const questionPdf = req.file
         console.log(questionPdf)
-        //todo : a service to upload pdf to pinecone  
- 
-        
+
+    
+            // todo : store pdf in db
 
         const result = await uploadPdfService({pdf : questionPdf.path , businessId})
        

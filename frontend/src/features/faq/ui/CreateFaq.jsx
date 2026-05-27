@@ -214,12 +214,12 @@ export default function FaqsPage() {
 
   // PDF state
   const [pdf,        setPdf]        = useState(null);
-  const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfSaved,   setPdfSaved]   = useState(false);
 
   //redux store 
   const businessId= useSelector(state => state.auth.user.id)
 console.log(businessId , "is bsid")
+const pdfLoading = useSelector(state => state.pdf.pdfLoading)
 
   // custom hooks 
    const {handleCreateFaq , handleCreatePdf} =useFaq()
@@ -266,13 +266,11 @@ console.log(valid)
   // ── PDF handlers ──
   const submitPdf = async () => {
     if (!pdf) { toast.error("Please upload a PDF first."); return; }
-    setPdfLoading(true);
-    try {
+    
+ 
     await handleCreatePdf({businessId , pdf})
       setPdfSaved(true);
-    } finally {
-      setPdfLoading(false);
-    }
+   
   };
 
   const filledCount = faqs.filter((f) => f.question.trim() && f.answer.trim()).length;
