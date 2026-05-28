@@ -95,7 +95,7 @@ const verifyEmailController =  async (req, res) => {
   user.isVerified = true; // since google already verifies email so we can directly mark user as verified
   await user.save();
   
-  return res.redirect("http://localhost:5174/"); // changed from login to your route
+  return res.redirect("http://localhost:5173/dashboard"); // changed from login to your route
     
   } catch (error) {
 
@@ -176,7 +176,7 @@ const accessToken = createAccessToken(user._id);
   user.isVerified = true; // since google already verifies email so we can directly mark user as verified
   await user.save();
   
-  return res.redirect("http://localhost:5174/"); // changed from login to your route
+  return res.redirect("http://localhost:5173/dashboard"); // changed from login to your route
     
   } catch (error) {
 
