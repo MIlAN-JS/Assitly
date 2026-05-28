@@ -262,7 +262,7 @@
       const data = await response.json();
 
       console.log(data)
-      settings = data.bot.widgetSettings;
+      settings = data.bot?.widgetSettings;
 
       console.log(settings)
       render();
