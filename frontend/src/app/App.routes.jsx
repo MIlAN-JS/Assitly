@@ -12,10 +12,11 @@ import ForgotPassword from '@/features/auth/ui/pages/ForgotPassword.jsx'
 import Dashboard from '@/features/dashboard/ui/Dashboard.jsx'
 import CreateBotPage from '@/features/bot/ui/CreateBot.jsx'
 import FaqsPage from '@/features/faq/ui/CreateFaq.jsx'
+import LandingPage from '@/features/Home/ui/LandingPage.jsx'
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "",
         element: <App />,
         children: [
            {
@@ -25,6 +26,12 @@ const router = createBrowserRouter([
                     path: "/dashboard",
                     element:<PrivateRoute><Dashboard/></PrivateRoute> 
                 },
+                 {
+                    path: "/", 
+                    element : <LandingPage/>
+
+                },
+                
                 {
                     path: "/create-bot",
                     element:<PrivateRoute><CreateBotPage/></PrivateRoute> 
@@ -58,6 +65,7 @@ const router = createBrowserRouter([
                     path : "/forgot-password", 
                     element: <PublicRoute><ForgotPassword/></PublicRoute>
                 }, 
+               
                
             ]
            }
