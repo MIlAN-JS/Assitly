@@ -74,7 +74,10 @@ console.log("inside get bot")
     try {
 
       const businessId = req.user
-      const settings = req.body
+      const settings = JSON.parse(req.body.settings)
+      const file  = req.file
+
+      console.log( settings , file)
 
       const bot = await botModel.findOne({ businessId })
       if(!bot){
@@ -84,10 +87,15 @@ console.log("inside get bot")
         })
       }
       
-
       console.log(settings)
 
-      const widgetSettings = bot.widgetSettings
+      let widgetSettings = bot.widgetSettings
+
+      if(file){
+        const avatarUrl = await uploadImageService(file)
+        settings.botAvatar = avatarUrl
+      }
+      
 
       const newWidgetSettings = {
           primaryColor : settings?.primaryColor || widgetSettings.primaryColor,
@@ -101,18 +109,18 @@ console.log("inside get bot")
           systemPrompt : settings?.systemPrompt || widgetSettings.systemPrompt
       }
 
-      console.log(newWidgetSettings.botName)
-     
-
-     const updatedBot =  await botModel.updateOne({ businessId }, { $set: { widgetSettings: newWidgetSettings } })
-
+    const updatedBot = await botModel.findOneAndUpdate(
+  { businessId },
+  { $set: { widgetSettings: newWidgetSettings } },
+  {returnDocument: "after" }
+);
       
 
 
       res.status(200).json({
         message : "bot settings updated successfully",
         success : true,
-        bot 
+        widgetSettings : updatedBot.widgetSettings
       })
       
       

@@ -33,8 +33,8 @@ api.interceptors.response.use(
       const newAccessToken = res?.data?.user?.accessToken
 
       store.dispatch({
-        type: "auth/setAccessToken",
-        payload: newAccessToken,
+        type: "auth/authSuccess",
+        payload: res?.data?.user,
       })
 
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`

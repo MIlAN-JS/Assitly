@@ -24,6 +24,6 @@ botRouter.post("/create-bot",upload.single("image") ,checkUser, createBotControl
 botRouter.get("/get-bot/widget/:botId", getBotController )
 botRouter.get("/get-bot",checkUser, getBotController )
 
-botRouter.patch("/update-bot" , checkUser ,updateBotSettingsController)
+botRouter.patch("/update-bot" , checkUser , upload.single("botAvatar"),updateBotSettingsController)
 
 export default botRouter
