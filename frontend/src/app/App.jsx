@@ -26,7 +26,7 @@ const loading = useSelector(state => state.bot.loading)
   },[user])
 
   return (
-    <div className=''>
+    <div className=' overflow-x-visible'>
      <Outlet/>
      <Toaster
        position="top-right"

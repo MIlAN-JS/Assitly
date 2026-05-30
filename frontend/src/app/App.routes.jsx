@@ -16,6 +16,9 @@ import LandingPage from '@/features/Home/ui/LandingPage.jsx'
 import StepEmbed from '@/components/Embed.jsx'
 import Docs from '@/components/Docs.jsx'
 import PricingPage from '@/features/Home/ui/components/Pricing.jsx'
+
+import FeaturesPage from '@/features/Home/ui/components/Features.jsx'
+
 // import StepEmbed from '@/components/Docs.jsx'
 
 const router = createBrowserRouter([
@@ -55,6 +58,10 @@ const router = createBrowserRouter([
                 {
                     path : "/pricing", 
                     element : <PricingPage/>
+                },
+                 {
+                    path : "/features", 
+                    element : <FeaturesPage/>
                 }
             ]
            }, 
