@@ -3,7 +3,7 @@ import {imageKit} from "../config/filehandler.config.js";
 const uploadImageService = async (file) => {
   try {
   
-
+console.log("start uploadingimage")
   const response = await imageKit.upload({
   file: file.buffer,
   fileName:file.originalname,

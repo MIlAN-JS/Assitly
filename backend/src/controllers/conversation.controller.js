@@ -7,7 +7,7 @@ import { chatWithAi } from "../services/langchain.service.js";
 import faqModel from "../models/faqs.model.js";
 import { queryPinecone } from "../services/vector.service.js";
 import { finalMessageForAiService } from "../services/conversation.service.js";
-import { json } from "express";
+import { json, response } from "express";
 
 
 const chatController = async(req , res , next)=>{
@@ -41,7 +41,7 @@ const chatController = async(req , res , next)=>{
 
       const conversation = await conversationModel.create({
         customBotId,
-        businessId: bot._id,
+        businessId: bot.businessId,
         visitorId,
         sessionId,
         role : "human",
@@ -59,11 +59,19 @@ const chatController = async(req , res , next)=>{
 // use ai to generate a response
   const aiResponse = await chatWithAi(formatedMessage)
 
+   await conversationModel.create({
+         customBotId,
+        businessId: bot.businessId,
+        visitorId,
+        sessionId,
+        role : "ai",
+        content : aiResponse.content,
+        responseTime: aiResponse.responseTime 
+   })
 
-console.log(aiResponse)
 
 res.status(201).json({
-    message : aiResponse,
+    message : aiResponse.content,
     success : true,
     
 })

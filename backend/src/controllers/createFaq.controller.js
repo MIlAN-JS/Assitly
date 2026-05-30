@@ -6,7 +6,7 @@ import botModel from "../models/bot.model.js";
 const createFaqController = async(req , res ,next)=>{
     
     try {
-        const faqs= req.body
+        const faqs= req.body.faqs
         console.log(req.body)
         const businessId = req.user
     
@@ -20,6 +20,16 @@ const createFaqController = async(req , res ,next)=>{
             })
         }
 
+        const prevFaqs = await faqModel.find({ customBotId : bot.customBotId })
+      
+      
+        // todo : dont save those faqs which are already present
+
+
+
+
+
+       
        const savedFaqs = await faqModel.insertMany(
         faqs.map(({answer,question})=>({
             customBotId : bot.customBotId,
@@ -29,7 +39,7 @@ const createFaqController = async(req , res ,next)=>{
         }))
        )
 
-       console.log(faqs)
+      
 
         res.status(201).json({
             message : "faq created successfully",
@@ -45,5 +55,6 @@ const createFaqController = async(req , res ,next)=>{
 
 
 export { 
+
     createFaqController
 }

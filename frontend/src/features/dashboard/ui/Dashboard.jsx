@@ -1,8 +1,10 @@
 import useBot from "@/features/bot/hook/useBot";
-import { useState } from "react";
-import { FiHome, FiMessageSquare, FiSettings, FiCode, FiBarChart2, FiChevronRight, FiCopy, FiCheck, FiEye, FiEyeOff, FiZap, FiUsers, FiTrendingUp, FiClock, FiMenu, FiX, FiSun, FiMoon, FiEdit2, FiSave } from "react-icons/fi";
+import { use, useEffect, useState } from "react";
+import { FiHome, FiMessageSquare, FiSettings, FiCode, FiBarChart2, FiChevronRight, FiCopy, FiCheck, FiEye, FiEyeOff, FiZap, FiUsers, FiTrendingUp, FiClock, FiMenu, FiX, FiSun, FiMoon, FiEdit2, FiSave  ,FiInfo} from "react-icons/fi";
 import { useSelector } from "react-redux";
+import FaqsPage from "@/features/faq/ui/CreateFaq";
 
+import { useRef } from "react"
 const BRAND = "#1a3a2a";
 const BRAND_LIGHT = "#e8f0ec";
 const BRAND_MID = "#2d5c42";
@@ -21,20 +23,20 @@ function Logo({ size = 160 }) {
 
 const NAV_ITEMS = [
   { id: "overview", icon: FiHome, label: "Overview" },
-  { id: "conversations", icon: FiMessageSquare, label: "Conversations" },
   { id: "bot", icon: FiSettings, label: "Bot Settings" },
   { id: "widget", icon: FiEye, label: "Widget Customizer" },
   { id: "embed", icon: FiCode, label: "Embed Code" },
-  { id: "analytics", icon: FiBarChart2, label: "Analytics" },
+  // { id: "analytics", icon: FiBarChart2, label: "Analytics" },
+  {id : "FAQs" , icon : FiInfo  , label : "FAQs"}
 ];
 
-const MOCK_CONVERSATIONS = [
-  { id: 1, visitor: "v_3k9x2m", preview: "How do I track my order?", time: "2 min ago", msgs: 6, resolved: true },
-  { id: 2, visitor: "v_8p1qr4", preview: "I want to return a product", time: "14 min ago", msgs: 4, resolved: false },
-  { id: 3, visitor: "v_7n2ws9", preview: "Do you ship internationally?", time: "1 hr ago", msgs: 3, resolved: true },
-  { id: 4, visitor: "v_0m4xt1", preview: "What payment methods do you accept?", time: "3 hr ago", msgs: 5, resolved: true },
-  { id: 5, visitor: "v_5c6yb8", preview: "My discount code isn't working", time: "5 hr ago", msgs: 9, resolved: false },
-];
+// const MOCK_CONVERSATIONS = [
+//   { id: 1, visitor: "v_3k9x2m", preview: "How do I track my order?", time: "2 min ago", msgs: 6, resolved: true },
+//   { id: 2, visitor: "v_8p1qr4", preview: "I want to return a product", time: "14 min ago", msgs: 4, resolved: false },
+//   { id: 3, visitor: "v_7n2ws9", preview: "Do you ship internationally?", time: "1 hr ago", msgs: 3, resolved: true },
+//   { id: 4, visitor: "v_0m4xt1", preview: "What payment methods do you accept?", time: "3 hr ago", msgs: 5, resolved: true },
+//   { id: 5, visitor: "v_5c6yb8", preview: "My discount code isn't working", time: "5 hr ago", msgs: 9, resolved: false },
+// ];
 
 const MOCK_TRANSCRIPT = [
   { role: "bot", text: "Hi! How can I help you today?" },
@@ -47,14 +49,25 @@ const MOCK_TRANSCRIPT = [
 
 // ── Overview Page ──────────────────────────────────────────────────────────
 function OverviewPage() {
-  const stats = [
-    { icon: FiMessageSquare, label: "Total Conversations", value: "1,284", change: "+12%", up: true },
-    { icon: FiUsers, label: "Unique Visitors", value: "938", change: "+8%", up: true },
-    { icon: FiZap, label: "Avg Response Time", value: "1.2s", change: "-0.3s", up: true },
-    { icon: FiTrendingUp, label: "Resolution Rate", value: "87%", change: "+3%", up: true },
-  ];
+const {handleGetOverview} = useDashboard()
 
-  const recent = MOCK_CONVERSATIONS.slice(0, 3);
+  useEffect(() => {
+    handleGetOverview()
+  }, [])
+
+  const overview = useSelector(state => state.dash.overview)
+  console.log(overview)
+
+
+
+  const stats = [
+    { icon: FiMessageSquare, label: "Total Conversations", value: overview?.totalConversations, change: "+12%", up: true },
+    { icon: FiUsers, label: "Total Visitors", value: overview?.totalVisitors, change: "+8%", up: true },
+    { icon: FiZap, label: "Avg Response Time", value: overview?.responseTime + " s", change: "-0.3s", up: true }
+    // { icon: FiTrendingUp, label: "Resolution Rate", value: "87%", change: "+3%", up: true },
+  ];
+  
+  const recent = overview?.recentConversations
 
   return (
     <div>
@@ -82,19 +95,19 @@ function OverviewPage() {
 
       <h2 style={{ fontSize: 16, fontWeight: 600, color: "#374151", marginBottom: 14 }}>Recent Conversations</h2>
       <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden" }}>
-        {recent.map((c, i) => (
-          <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < recent.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+        {recent?.map((c, i) => (
+          <div key={Date.now() + Math.random()} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < recent.length - 1 ? "1px solid #f3f4f6" : "none" }}>
             <div style={{ width: 36, height: 36, borderRadius: "50%", background: BRAND_LIGHT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <FiUsers size={15} color={BRAND} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 2 }}>{c.visitor}</p>
-              <p style={{ fontSize: 12, color: "#9ca3af", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.preview}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 2 }}>{c.visitorId}</p>
+              <p style={{ fontSize: 12, color: "#9ca3af", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c?.content}</p>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
               <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.time}</span>
-              <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: c.resolved ? "#dcfce7" : "#fef9c3", color: c.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-                {c.resolved ? "Resolved" : "Open"}
+              <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 2, background: "#dcfce7" , color: "#16a34a" , fontWeight: 600 }}>
+                resolved
               </span>
             </div>
           </div>
@@ -104,80 +117,33 @@ function OverviewPage() {
   );
 }
 
-// ── Conversations Page ─────────────────────────────────────────────────────
-function ConversationsPage() {
-  const [selected, setSelected] = useState(MOCK_CONVERSATIONS[0]);
 
-  return (
-    <div style={{ display: "flex", gap: 20, height: "calc(100vh - 120px)" }}>
-      <div style={{ width: 300, flexShrink: 0, background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-        <div style={{ padding: "16px 18px", borderBottom: "1px solid #f3f4f6" }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: BRAND }}>All Conversations</h2>
-        </div>
-        <div style={{ overflowY: "auto", flex: 1 }}>
-          {MOCK_CONVERSATIONS.map(c => (
-            <div key={c.id} onClick={() => setSelected(c)}
-              style={{ padding: "14px 18px", cursor: "pointer", borderBottom: "1px solid #f9fafb", background: selected.id === c.id ? BRAND_LIGHT : "transparent", transition: "background 0.15s" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: BRAND }}>{c.visitor}</span>
-                <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.time}</span>
-              </div>
-              <p style={{ fontSize: 12, color: "#6b7280", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.preview}</p>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, alignItems: "center" }}>
-                <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.msgs} messages</span>
-                <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: c.resolved ? "#dcfce7" : "#fef9c3", color: c.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-                  {c.resolved ? "Resolved" : "Open"}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ flex: 1, background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <div style={{ padding: "16px 20px", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: BRAND }}>{selected.visitor}</h3>
-            <p style={{ fontSize: 12, color: "#9ca3af" }}>{selected.time} · {selected.msgs} messages</p>
-          </div>
-          <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: selected.resolved ? "#dcfce7" : "#fef9c3", color: selected.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-            {selected.resolved ? "Resolved" : "Open"}
-          </span>
-        </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px", display: "flex", flexDirection: "column", gap: 12, background: "#f9fafb" }}>
-          {MOCK_TRANSCRIPT.map((m, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
-              <div style={{
-                maxWidth: "72%", padding: "10px 14px", borderRadius: 14,
-                borderBottomLeftRadius: m.role === "bot" ? 4 : 14,
-                borderBottomRightRadius: m.role === "user" ? 4 : 14,
-                background: m.role === "user" ? BRAND : "#fff",
-                color: m.role === "user" ? "#fff" : "#1a1a1a",
-                fontSize: 13, lineHeight: 1.55,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.06)"
-              }}>
-                {m.text}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Bot Settings Page ──────────────────────────────────────────────────────
 function BotSettingsPage() {
+  const bot = useSelector(state => state.bot.bot)
+  console.log(bot)
+
   const [saved, setSaved] = useState(false);
+  
   const [form, setForm] = useState({
-    botName: "Support Bot",
-    welcomeMessage: "Hi! How can I help you today?",
-    placeholder: "Type a message...",
-    systemPrompt: "Act as a helpful customer support assistant for an ecommerce business. Be concise, friendly, and helpful. If you cannot answer, escalate politely.",
+    botName: bot.widgetSettings.botName,
+    welcomeMessage: bot.widgetSettings.welcomeMessage,
+    placeholder: bot.widgetSettings.placeholder,
+    systemPrompt: bot?.systemPrompt,
   });
+
+  const {handleUpdateSettings} = useDashboard()
+
+
 
   function handleSave() {
     setSaved(true);
+
+    // custom hook call
+
+      handleUpdateSettings({settings : form})
+
     setTimeout(() => setSaved(false), 2000);
   }
 
@@ -217,7 +183,47 @@ function BotSettingsPage() {
 
 // ── Widget Customizer Page ─────────────────────────────────────────────────
 function WidgetCustomizerPage() {
-  const [cfg, setCfg] = useState({ primaryColor: "#1a3a2a", textColor: "#ffffff", position: "bottom-right", showBranding: true });
+  const bot = useSelector(state => state.bot.bot)
+  const [cfg, setCfg] = useState({
+    primaryColor: bot.widgetSettings.primaryColor,
+    textColor: bot.widgetSettings.textColor,
+    position: bot.widgetSettings.position,
+    avatar: bot.widgetSettings.botAvatar,
+  });
+
+  const [avatarFile , setAvatarFile] = useState(null)
+  const avatarRef = useRef();
+
+  const {handleUpdateSettings} = useDashboard()
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setCfg({ ...cfg, avatar: url });
+    setAvatarFile(file)
+  };
+
+  const handleRemove = () => {
+  setCfg({ ...cfg, avatar: null });
+  avatarRef.current.value = ""; // ✅ clear the input so you can re-upload
+};
+
+const handleSubmit = (e)=>{
+  e.preventDefault();
+  const finaldata = {
+    primaryColor: cfg.primaryColor,
+    textColor: cfg.textColor,
+    position: cfg.position,
+  }
+  console.log(avatarFile)
+   handleUpdateSettings({
+    settings : finaldata, 
+    avatarFile : avatarFile
+   })
+
+
+}
 
   return (
     <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
@@ -225,6 +231,82 @@ function WidgetCustomizerPage() {
         <h1 style={{ fontSize: 22, fontWeight: 700, color: BRAND, fontFamily: "Georgia, serif", marginBottom: 6 }}>Widget Customizer</h1>
         <p style={{ color: "#6b7280", marginBottom: 28 }}>Adjust colors and layout. Preview updates live.</p>
 
+        {/* ── Avatar ── */}
+        <div style={{ marginBottom: 22 }}>
+          <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>
+            Bot Avatar
+          </label>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            {/* Preview circle */}
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                background: cfg.avatar ? "transparent" : cfg.primaryColor,
+                border: "2px solid #e5e7eb",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              {cfg.avatar ? (
+                <img src={cfg.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <FiMessageSquare size={22} color="#fff" />
+              )}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <button
+                onClick={() => avatarRef.current.click()}
+                style={{
+                  padding: "7px 16px",
+                  border: "1.5px solid #e5e7eb",
+                  borderRadius: 10,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  background: "#fff",
+                  color: "#374151",
+                  cursor: "pointer",
+                }}
+              >
+                Upload photo
+              </button>
+              {cfg.avatar && (
+                <button
+                  onClick={handleRemove }
+                  style={{
+                    padding: "5px 14px",
+                    border: "1.5px solid #fecaca",
+                    borderRadius: 10,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    background: "#fff5f5",
+                    color: "#ef4444",
+                    cursor: "pointer",
+                  }}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+            <input
+              ref={avatarRef}
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleAvatarChange}
+            />
+          </div>
+          <p style={{ fontSize: 11, color: "#9ca3af", marginTop: 6 }}>
+            PNG, JPG or GIF · Recommended 64×64px
+          </p>
+        </div>
+
+        {/* ── Primary Color ── */}
         <div style={{ marginBottom: 22 }}>
           <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>Primary Color</label>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -234,6 +316,7 @@ function WidgetCustomizerPage() {
           </div>
         </div>
 
+        {/* ── Text Color ── */}
         <div style={{ marginBottom: 22 }}>
           <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>Text Color</label>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -243,6 +326,7 @@ function WidgetCustomizerPage() {
           </div>
         </div>
 
+        {/* ── Position ── */}
         <div style={{ marginBottom: 22 }}>
           <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>Position</label>
           <div style={{ display: "flex", gap: 10 }}>
@@ -255,35 +339,47 @@ function WidgetCustomizerPage() {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: "#f9fafb", borderRadius: 12, border: "1px solid #e5e7eb" }}>
-          <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Show Branding</p>
-            <p style={{ fontSize: 11, color: "#9ca3af" }}>Display "Powered by Assistly"</p>
-          </div>
-          <div onClick={() => setCfg({ ...cfg, showBranding: !cfg.showBranding })}
-            style={{ width: 44, height: 24, borderRadius: 12, background: cfg.showBranding ? cfg.primaryColor : "#d1d5db", cursor: "pointer", position: "relative", transition: "background 0.2s" }}>
-            <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: cfg.showBranding ? 23 : 3, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
-          </div>
+        <div className="w-full flex items-center justify-center">
+          <button 
+          onClick={(e)=>{
+            handleSubmit(e)
+          }}
+          className={`bg-[#1a3a2a] text-white text-md  px-5 py-2.5 rounded-lg  hover:opacity-90`}>
+              Save settings
+          </button>
         </div>
+
+       
       </div>
 
-      {/* Live Preview */}
+      {/* ── Live Preview ── */}
       <div style={{ flex: "1 1 300px", minWidth: 280 }}>
         <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 14 }}>Live Preview</p>
         <div style={{ background: "#f0ece6", borderRadius: 20, padding: 20, position: "relative", minHeight: 420 }}>
           <div style={{ width: "100%", maxWidth: 300, background: "#f5f0eb", borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", margin: "0 auto" }}>
             <div style={{ background: cfg.primaryColor, padding: "14px 16px", display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <FiMessageSquare size={14} color="#fff" />
+              {/* Avatar in header */}
+              <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
+                {cfg.avatar ? (
+                  <img src={cfg.avatar} alt="bot" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <FiMessageSquare size={14} color="#fff" />
+                )}
               </div>
               <div>
                 <p style={{ color: cfg.textColor, fontSize: 13, fontWeight: 700 }}>Support Bot</p>
                 <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 11 }}>● Online</p>
               </div>
             </div>
+
             <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10, minHeight: 160 }}>
               <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", background: cfg.primaryColor, flexShrink: 0 }} />
+                {/* Avatar in chat bubble */}
+                <div style={{ width: 24, height: 24, borderRadius: "50%", background: cfg.primaryColor, flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {cfg.avatar ? (
+                    <img src={cfg.avatar} alt="bot" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ) : null}
+                </div>
                 <div style={{ background: "#fff", padding: "8px 12px", borderRadius: "12px 12px 12px 3px", fontSize: 12, color: "#1a1a1a", maxWidth: "75%" }}>
                   Hi! How can I help you today?
                 </div>
@@ -294,12 +390,14 @@ function WidgetCustomizerPage() {
                 </div>
               </div>
             </div>
+
             <div style={{ padding: "10px 12px", background: "#fff", borderTop: "1px solid rgba(0,0,0,0.06)", display: "flex", gap: 8 }}>
               <div style={{ flex: 1, background: "#f5f5f5", borderRadius: 8, padding: "7px 10px", fontSize: 11, color: "#b0a898" }}>Type a message...</div>
               <div style={{ width: 32, height: 32, borderRadius: 8, background: cfg.primaryColor, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <FiChevronRight size={14} color={cfg.textColor} />
               </div>
             </div>
+
             {cfg.showBranding && (
               <div style={{ textAlign: "center", padding: "6px 0", background: "#fff", fontSize: 10, color: "#9ca3af", borderTop: "1px solid rgba(0,0,0,0.04)" }}>
                 Powered by Assistly
@@ -307,9 +405,14 @@ function WidgetCustomizerPage() {
             )}
           </div>
 
+          {/* Floating button */}
           <div style={{ position: "absolute", bottom: 20, right: cfg.position === "bottom-right" ? 20 : "auto", left: cfg.position === "bottom-left" ? 20 : "auto" }}>
-            <div style={{ width: 48, height: 48, borderRadius: "50%", background: cfg.primaryColor, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
-              <FiMessageSquare size={20} color={cfg.textColor} />
+            <div style={{ width: 48, height: 48, borderRadius: "50%", background: cfg.primaryColor, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.2)", overflow: "hidden" }}>
+              {cfg.avatar ? (
+                <img src={cfg.avatar} alt="bot" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <FiMessageSquare size={20} color={cfg.textColor} />
+              )}
             </div>
           </div>
         </div>
@@ -319,6 +422,7 @@ function WidgetCustomizerPage() {
 }
 
 import { embedCode } from "@/lib/utils.js";
+import useDashboard from "../hook/useDashboard";
 
 // ── Embed Code Page ────────────────────────────────────────────────────────
 function EmbedCodePage() {
@@ -413,12 +517,18 @@ function AnalyticsPage() {
   );
 }
 
+// function FAQsPage() {
+//   return (
+//     <h1>hello world</h1>
+//   )
+// }
+
 // ── Shell ──────────────────────────────────────────────────────────────────
 export default function AssistlyDashboard() {
   const [page, setPage] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const pages = { overview: OverviewPage, conversations: ConversationsPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage };
+  const pages = { overview: OverviewPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage , FAQs : FaqsPage};
   const PageComponent = pages[page];
 
   
