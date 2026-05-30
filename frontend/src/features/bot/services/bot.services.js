@@ -9,7 +9,7 @@ const getBot = async (businessId) => {
 
    try {
 
-      const bot = await api.get(`/bot/get-bot/${businessId}`);
+      const bot = await api.get(`/bot/get-bot`);
 
       return bot.data;
 

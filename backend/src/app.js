@@ -7,8 +7,10 @@ import botRouter from './routes/bot.routes.js'
 import faqRouter from './routes/faq.routes.js'
 import pdfRouter from './routes/pdf.routes.js'
 import conversationRouter from './routes/conversation.route.js'
-
 import cors from "cors"
+import dashboardRouter from './routes/dashboard.routes.js'
+
+
 
 const app = express()
 
@@ -40,7 +42,7 @@ app.use(passport.initialize());
 app.use("/api/faq", faqRouter)
 app.use("/api/pdf", pdfRouter)
 app.use("/api/bot", conversationRouter)
-
+app.use("/api/dashboard", dashboardRouter)
 /
 // error handler
 app.use(errHandler)

@@ -18,10 +18,14 @@ const groqModel = new ChatGroq({
 
 
 const chatWithAi = async (message) => {
-    console.log("start to send msg to ai ")
+  
+    const startTime = Date.now()
   const response = await groqModel.invoke(message)
-  console.log("completed")
-  return response.content
+
+  const responseTime = Date.now() - startTime
+  
+  console.log(responseTime)
+  return {content : response.content , responseTime : responseTime}
 
 }
 
