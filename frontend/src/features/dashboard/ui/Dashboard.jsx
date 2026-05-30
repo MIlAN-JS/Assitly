@@ -1,7 +1,9 @@
 import useBot from "@/features/bot/hook/useBot";
 import { useState } from "react";
-import { FiHome, FiMessageSquare, FiSettings, FiCode, FiBarChart2, FiChevronRight, FiCopy, FiCheck, FiEye, FiEyeOff, FiZap, FiUsers, FiTrendingUp, FiClock, FiMenu, FiX, FiSun, FiMoon, FiEdit2, FiSave } from "react-icons/fi";
+import { FiHome, FiMessageSquare, FiSettings, FiCode, FiBarChart2, FiChevronRight, FiCopy, FiCheck, FiEye, FiEyeOff, FiZap, FiUsers, FiTrendingUp, FiClock, FiMenu, FiX, FiSun, FiMoon, FiEdit2, FiSave  ,FiInfo} from "react-icons/fi";
 import { useSelector } from "react-redux";
+import FaqsPage from "@/features/faq/ui/CreateFaq";
+
 
 const BRAND = "#1a3a2a";
 const BRAND_LIGHT = "#e8f0ec";
@@ -26,6 +28,7 @@ const NAV_ITEMS = [
   { id: "widget", icon: FiEye, label: "Widget Customizer" },
   { id: "embed", icon: FiCode, label: "Embed Code" },
   { id: "analytics", icon: FiBarChart2, label: "Analytics" },
+  {id : "FAQs" , icon : FiInfo  , label : "FAQs"}
 ];
 
 const MOCK_CONVERSATIONS = [
@@ -413,12 +416,18 @@ function AnalyticsPage() {
   );
 }
 
+// function FAQsPage() {
+//   return (
+//     <h1>hello world</h1>
+//   )
+// }
+
 // ── Shell ──────────────────────────────────────────────────────────────────
 export default function AssistlyDashboard() {
   const [page, setPage] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const pages = { overview: OverviewPage, conversations: ConversationsPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage };
+  const pages = { overview: OverviewPage, conversations: ConversationsPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage , FAQs : FaqsPage};
   const PageComponent = pages[page];
 
   
