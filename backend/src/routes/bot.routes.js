@@ -21,7 +21,7 @@ const upload = multer({
  */
 
 botRouter.post("/create-bot",upload.single("image") ,checkUser, createBotController )
-botRouter.get("/get-bot/:businessId", getBotController )
-
+botRouter.get("/get-bot/widget/:botId", getBotController )
+botRouter.get("/get-bot",checkUser, getBotController )
 
 export default botRouter

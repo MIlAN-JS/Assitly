@@ -2,7 +2,7 @@
 
 (function () {
 
-  console.log("inside assistly")
+ 
   const scriptTag = document.currentScript;
 
   if (!scriptTag) {
@@ -193,15 +193,26 @@
     }
 
     .assistly-launcher {
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      color: white;
-      font-size: 24px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
-    }
+  width: 58px;
+  height: 58px;
+  border-radius: 25%;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assistly-launcher img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+
+}
 
     .assistly-typing {
       display: inline-flex;
@@ -254,17 +265,17 @@
   async function fetchBot() {
     try {
       console.log("inside fetchbot")
+      
       const response = await fetch(
-        `${API_BASE}/api/bot/get-bot/${botId}`
+        `${API_BASE}/api/bot/get-bot/widget/${botId}`
       );
-      console.log(response)
+     
 
       const data = await response.json();
 
-      console.log(data)
       settings = data.bot?.widgetSettings;
 
-      console.log(settings)
+      
       render();
 
       if (settings.autoOpen) {
@@ -308,7 +319,16 @@
 
     button.style.background = settings.primaryColor;
 
-    button.innerHTML = isOpen ? "✕" : "💬";
+   if (isOpen) {
+  button.textContent = "✕";
+} else {
+  const img = document.createElement("img");
+  img.src = "https://ik.imagekit.io/9exnzacx6n/msg-vector%20(1).svg";
+  img.alt = "Message";
+  
+  button.innerHTML = "";
+  button.appendChild(img);
+}
 
     button.onclick = () => {
       if (isOpen) {

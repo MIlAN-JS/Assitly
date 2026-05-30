@@ -51,7 +51,7 @@ const chatController = async(req , res , next)=>{
 
       // fetch the message from the conversation model using session Id 
 
-      const messages = await conversationModel.find({ sessionId }).sort({ createdAt: 1 }).limit(10)
+      const messages = await conversationModel.find({ sessionId }).sort({ createdAt: 1 }).limit(2)
 
       const formatedMessage = await finalMessageForAiService({messages,message, customBotId, bot})
   

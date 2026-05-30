@@ -34,10 +34,18 @@ const createBotController = async (req, res , next) => {
   const getBotController = async(req , res, next)=>{
     try {
 console.log("inside get bot")
-      const businessId = req.params.businessId
+      const businessId = req.user
+      const botId = req.params.botId
       console.log(businessId)
 
-      const bot = await botModel.findOne({businessId : businessId})
+
+      const bot = await botModel.findOne({
+        $or: [
+          { customBotId: botId },
+          { businessId: businessId }
+        ]
+      }) 
+
       console.log(bot)
 
       if(!bot){
