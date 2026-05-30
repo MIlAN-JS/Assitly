@@ -1,5 +1,5 @@
 import useBot from "@/features/bot/hook/useBot";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiHome, FiMessageSquare, FiSettings, FiCode, FiBarChart2, FiChevronRight, FiCopy, FiCheck, FiEye, FiEyeOff, FiZap, FiUsers, FiTrendingUp, FiClock, FiMenu, FiX, FiSun, FiMoon, FiEdit2, FiSave  ,FiInfo} from "react-icons/fi";
 import { useSelector } from "react-redux";
 import FaqsPage from "@/features/faq/ui/CreateFaq";
@@ -23,7 +23,6 @@ function Logo({ size = 160 }) {
 
 const NAV_ITEMS = [
   { id: "overview", icon: FiHome, label: "Overview" },
-  { id: "conversations", icon: FiMessageSquare, label: "Conversations" },
   { id: "bot", icon: FiSettings, label: "Bot Settings" },
   { id: "widget", icon: FiEye, label: "Widget Customizer" },
   { id: "embed", icon: FiCode, label: "Embed Code" },
@@ -31,13 +30,13 @@ const NAV_ITEMS = [
   {id : "FAQs" , icon : FiInfo  , label : "FAQs"}
 ];
 
-const MOCK_CONVERSATIONS = [
-  { id: 1, visitor: "v_3k9x2m", preview: "How do I track my order?", time: "2 min ago", msgs: 6, resolved: true },
-  { id: 2, visitor: "v_8p1qr4", preview: "I want to return a product", time: "14 min ago", msgs: 4, resolved: false },
-  { id: 3, visitor: "v_7n2ws9", preview: "Do you ship internationally?", time: "1 hr ago", msgs: 3, resolved: true },
-  { id: 4, visitor: "v_0m4xt1", preview: "What payment methods do you accept?", time: "3 hr ago", msgs: 5, resolved: true },
-  { id: 5, visitor: "v_5c6yb8", preview: "My discount code isn't working", time: "5 hr ago", msgs: 9, resolved: false },
-];
+// const MOCK_CONVERSATIONS = [
+//   { id: 1, visitor: "v_3k9x2m", preview: "How do I track my order?", time: "2 min ago", msgs: 6, resolved: true },
+//   { id: 2, visitor: "v_8p1qr4", preview: "I want to return a product", time: "14 min ago", msgs: 4, resolved: false },
+//   { id: 3, visitor: "v_7n2ws9", preview: "Do you ship internationally?", time: "1 hr ago", msgs: 3, resolved: true },
+//   { id: 4, visitor: "v_0m4xt1", preview: "What payment methods do you accept?", time: "3 hr ago", msgs: 5, resolved: true },
+//   { id: 5, visitor: "v_5c6yb8", preview: "My discount code isn't working", time: "5 hr ago", msgs: 9, resolved: false },
+// ];
 
 const MOCK_TRANSCRIPT = [
   { role: "bot", text: "Hi! How can I help you today?" },
@@ -50,14 +49,25 @@ const MOCK_TRANSCRIPT = [
 
 // ── Overview Page ──────────────────────────────────────────────────────────
 function OverviewPage() {
-  const stats = [
-    { icon: FiMessageSquare, label: "Total Conversations", value: "1,284", change: "+12%", up: true },
-    { icon: FiUsers, label: "Unique Visitors", value: "938", change: "+8%", up: true },
-    { icon: FiZap, label: "Avg Response Time", value: "1.2s", change: "-0.3s", up: true },
-    { icon: FiTrendingUp, label: "Resolution Rate", value: "87%", change: "+3%", up: true },
-  ];
+const {handleGetOverview} = useDashboard()
 
-  const recent = MOCK_CONVERSATIONS.slice(0, 3);
+  useEffect(() => {
+    handleGetOverview()
+  }, [])
+
+  const overview = useSelector(state => state.dash.overview)
+  console.log(overview)
+
+
+
+  const stats = [
+    { icon: FiMessageSquare, label: "Total Conversations", value: overview?.totalConversations, change: "+12%", up: true },
+    { icon: FiUsers, label: "Total Visitors", value: overview?.totalVisitors, change: "+8%", up: true },
+    { icon: FiZap, label: "Avg Response Time", value: overview?.responseTime + " s", change: "-0.3s", up: true }
+    // { icon: FiTrendingUp, label: "Resolution Rate", value: "87%", change: "+3%", up: true },
+  ];
+  
+  const recent = overview?.recentConversations
 
   return (
     <div>
@@ -85,19 +95,19 @@ function OverviewPage() {
 
       <h2 style={{ fontSize: 16, fontWeight: 600, color: "#374151", marginBottom: 14 }}>Recent Conversations</h2>
       <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden" }}>
-        {recent.map((c, i) => (
-          <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < recent.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+        {recent?.map((c, i) => (
+          <div key={Date.now() + Math.random()} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < recent.length - 1 ? "1px solid #f3f4f6" : "none" }}>
             <div style={{ width: 36, height: 36, borderRadius: "50%", background: BRAND_LIGHT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <FiUsers size={15} color={BRAND} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 2 }}>{c.visitor}</p>
-              <p style={{ fontSize: 12, color: "#9ca3af", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.preview}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 2 }}>{c.visitorId}</p>
+              <p style={{ fontSize: 12, color: "#9ca3af", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c?.content}</p>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
               <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.time}</span>
-              <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: c.resolved ? "#dcfce7" : "#fef9c3", color: c.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-                {c.resolved ? "Resolved" : "Open"}
+              <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 2, background: "#dcfce7" , color: "#16a34a" , fontWeight: 600 }}>
+                resolved
               </span>
             </div>
           </div>
@@ -107,67 +117,7 @@ function OverviewPage() {
   );
 }
 
-// ── Conversations Page ─────────────────────────────────────────────────────
-function ConversationsPage() {
-  const [selected, setSelected] = useState(MOCK_CONVERSATIONS[0]);
 
-  return (
-    <div style={{ display: "flex", gap: 20, height: "calc(100vh - 120px)" }}>
-      <div style={{ width: 300, flexShrink: 0, background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-        <div style={{ padding: "16px 18px", borderBottom: "1px solid #f3f4f6" }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: BRAND }}>All Conversations</h2>
-        </div>
-        <div style={{ overflowY: "auto", flex: 1 }}>
-          {MOCK_CONVERSATIONS.map(c => (
-            <div key={c.id} onClick={() => setSelected(c)}
-              style={{ padding: "14px 18px", cursor: "pointer", borderBottom: "1px solid #f9fafb", background: selected.id === c.id ? BRAND_LIGHT : "transparent", transition: "background 0.15s" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: BRAND }}>{c.visitor}</span>
-                <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.time}</span>
-              </div>
-              <p style={{ fontSize: 12, color: "#6b7280", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.preview}</p>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, alignItems: "center" }}>
-                <span style={{ fontSize: 11, color: "#9ca3af" }}>{c.msgs} messages</span>
-                <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: c.resolved ? "#dcfce7" : "#fef9c3", color: c.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-                  {c.resolved ? "Resolved" : "Open"}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ flex: 1, background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <div style={{ padding: "16px 20px", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: BRAND }}>{selected.visitor}</h3>
-            <p style={{ fontSize: 12, color: "#9ca3af" }}>{selected.time} · {selected.msgs} messages</p>
-          </div>
-          <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: selected.resolved ? "#dcfce7" : "#fef9c3", color: selected.resolved ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>
-            {selected.resolved ? "Resolved" : "Open"}
-          </span>
-        </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px", display: "flex", flexDirection: "column", gap: 12, background: "#f9fafb" }}>
-          {MOCK_TRANSCRIPT.map((m, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
-              <div style={{
-                maxWidth: "72%", padding: "10px 14px", borderRadius: 14,
-                borderBottomLeftRadius: m.role === "bot" ? 4 : 14,
-                borderBottomRightRadius: m.role === "user" ? 4 : 14,
-                background: m.role === "user" ? BRAND : "#fff",
-                color: m.role === "user" ? "#fff" : "#1a1a1a",
-                fontSize: 13, lineHeight: 1.55,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.06)"
-              }}>
-                {m.text}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Bot Settings Page ──────────────────────────────────────────────────────
 function BotSettingsPage() {
@@ -322,6 +272,7 @@ function WidgetCustomizerPage() {
 }
 
 import { embedCode } from "@/lib/utils.js";
+import useDashboard from "../hook/useDashboard";
 
 // ── Embed Code Page ────────────────────────────────────────────────────────
 function EmbedCodePage() {
@@ -427,7 +378,7 @@ export default function AssistlyDashboard() {
   const [page, setPage] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const pages = { overview: OverviewPage, conversations: ConversationsPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage , FAQs : FaqsPage};
+  const pages = { overview: OverviewPage, bot: BotSettingsPage, widget: WidgetCustomizerPage, embed: EmbedCodePage, analytics: AnalyticsPage , FAQs : FaqsPage};
   const PageComponent = pages[page];
 
   

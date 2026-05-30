@@ -69,14 +69,16 @@ return avgResponseTime
 const getRecentConversations = async(businessId)=>{
 
     const recentConversations = await conversationModel.find({businessId}).sort({createdAt:1}).limit(5)
-    
+
+
     const result = recentConversations.filter((conv)=>{
             return conv.role === "human"
     }).map((conv)=>{
+      const time = conv.createdAt.toLocaleTimeString();
         return {
             visitorId : conv.visitorId,
             content : conv.content, 
-           
+           time : time
         }
     })
 

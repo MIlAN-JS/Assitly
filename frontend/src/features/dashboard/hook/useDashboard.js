@@ -10,7 +10,7 @@ const useDashboard = () => {
     const dispatch = useDispatch()
 
 
-    const getOverview = async()=>{
+    const handleGetOverview = async()=>{
         try {
             dispatch(dashStart())
             const response = await getOverviewService()
@@ -24,7 +24,7 @@ const useDashboard = () => {
 
 
     return {
-        getOverview
+        handleGetOverview
     }
 
 }
