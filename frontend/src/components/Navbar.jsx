@@ -75,7 +75,7 @@ const Navbar = () => {
   const navLinks = isLoggedIn ? privateLinks : publicLinks;
 
   return (
-    <nav className="w-full bg-[#f5f0e8] border-b border-[#1a3a2a]/10 px-6 md:px-12 py-2 grid grid-cols-3 items-center absolute z-50 ">
+    <nav className="w-full bg-[#f5f0e8] border-b border-[#1a3a2a]/10 px-6 md:px-12 py-2 flex items-center justify-between relative z-50">
 
       {/* LEFT: Logo */}
       <div className="flex items-center">
@@ -121,20 +121,7 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-[#1a3a2a]/10 py-1 overflow-hidden">
-                <Link
-                  to="/profile"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#1a3a2a] hover:bg-[#f5f0e8] transition"
-                >
-                  👤 Profile
-                </Link>
-                <Link
-                  to="/settings"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#1a3a2a] hover:bg-[#f5f0e8] transition"
-                >
-                  ⚙️ Settings
-                </Link>
+               
                 <div className="border-t border-[#1a3a2a]/10 my-1" />
                 <button
                   onClick={() => {

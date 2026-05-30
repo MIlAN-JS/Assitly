@@ -165,30 +165,12 @@ export default function Docs() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#F4EFE8", fontFamily: "sans-serif" }}>
+    <div className="min-h-screen " style={{ background: "#F4EFE8", fontFamily: "sans-serif" }}>
 
       {/* Top nav */}
-      <header className="sticky top-0 z-50 bg-white border-b border-[#E5E7EB] px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {sidebarOpen ? <FiX size={20} color={BRAND} /> : <FiMenu size={20} color={BRAND} />}
-          </button>
-          <Logo />
-          <span className="text-sm font-semibold px-3 py-1 rounded-full bg-[#F0F5F2] text-[#1A3A2A]">Docs</span>
-        </div>
-        <a
-          href="/dashboard"
-          className="px-4 py-2 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: BRAND }}
-        >
-          Dashboard →
-        </a>
-      </header>
+    
 
-      <div className="flex max-w-7xl mx-auto">
+      <div className="flex max-w-7xl mx-auto ">
 
         {/* Sidebar */}
         <aside
