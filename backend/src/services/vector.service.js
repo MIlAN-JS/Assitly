@@ -60,6 +60,8 @@ const uploadPdfService = async ({pdf , businessId}) => {
 // const stats = await index.describeIndexStats();
 // console.log(stats);
 
+         // delete previous pdf  if any exists 
+         
      
        const result = await index.upsert({
             records: embeddedDocs.map((doc, i) => ({
