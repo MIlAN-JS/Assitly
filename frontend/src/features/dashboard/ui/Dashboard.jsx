@@ -121,16 +121,29 @@ const {handleGetOverview} = useDashboard()
 
 // ── Bot Settings Page ──────────────────────────────────────────────────────
 function BotSettingsPage() {
+  const bot = useSelector(state => state.bot.bot)
+  console.log(bot)
+
   const [saved, setSaved] = useState(false);
+  
   const [form, setForm] = useState({
-    botName: "Support Bot",
-    welcomeMessage: "Hi! How can I help you today?",
-    placeholder: "Type a message...",
-    systemPrompt: "Act as a helpful customer support assistant for an ecommerce business. Be concise, friendly, and helpful. If you cannot answer, escalate politely.",
+    botName: bot.widgetSettings.botName,
+    welcomeMessage: bot.widgetSettings.welcomeMessage,
+    placeholder: bot.widgetSettings.placeholder,
+    systemPrompt: bot?.systemPrompt,
   });
+
+  const {handleUpdateSettings} = useDashboard()
+
+
 
   function handleSave() {
     setSaved(true);
+
+    // custom hook call
+
+      handleUpdateSettings({settings : form})
+
     setTimeout(() => setSaved(false), 2000);
   }
 
