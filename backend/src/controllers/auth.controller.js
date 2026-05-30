@@ -190,22 +190,8 @@ const logoutController = async(req , res ,next)=>{
     try {
 
      
-        
-        const userId = req.user
-
-        // check if user exist 
-        const user = await userModel.findById(userId)
-        if(!user){
-            return res.status(400).json({
-                message : "Cannot find user", 
-                success : false
-            })
-        }
-
-        // fetch the token 
-
-        const refreshToken = req.cookies.refreshToken
-
+  
+       
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: false,

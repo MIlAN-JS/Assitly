@@ -91,7 +91,7 @@ authRouter.get('/github/callback',passport.authenticate("github",{
  * @access private
  */
 
-authRouter.post('/logout' , checkUser,  logoutController);
+authRouter.post('/logout' ,  logoutController);
 
 
 /**
