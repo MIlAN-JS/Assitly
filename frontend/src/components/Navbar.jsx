@@ -61,11 +61,8 @@ const Navbar = () => {
 
   const publicLinks = [
     {label : "Home", to : "/"},
-    { label: 'Features', to: '/features' },
-    { label: 'Contact', to: '/contact' },
     {label :"See Demo"  , to : "/demo"}, 
-     {label : "Docs", to : "/docs"},
-    
+     {label : "Pricing", to : "/pricing"},
     
   ];
 

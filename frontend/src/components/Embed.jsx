@@ -11,12 +11,15 @@ import {
   RiUploadCloud2Line,
   RiCloseLine,
 } from "react-icons/ri";
+import { useSelector } from "react-redux";
  
 const BRAND = "#1A3A2A";
 const BRAND_LIGHT = "#F0F5F2";
 function StepEmbed({ customBotId }) {
+    const embedCode = useSelector(state => state.bot.bot?.customBotId)
+   
   const [copied, setCopied] = useState(false);
-  const code = `<script src="https://cdn.assistly.com/widget.js" data-bot-id="${customBotId || "YOUR_BOT_ID"}"></script>`;
+  const code = `<script src="http://localhost:3000/assistlyWidget.js" botId="${embedCode}"></script>`;
 
   const copy = () => {
     navigator.clipboard.writeText(code);
