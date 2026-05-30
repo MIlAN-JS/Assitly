@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { botFailure, botStart, botSuccess, clearError } from "../context/bot.slice";
 import { toast } from "sonner";
 import { createBot , getBot } from "../services/bot.services.js";
@@ -7,6 +7,9 @@ import { createBot , getBot } from "../services/bot.services.js";
 
 
 const useBot = ()=>{
+    const loading = useSelector(state => state.bot.loading)
+    const error = useSelector(state => state.bot.error)
+    console.log(error)
 
 const dispatch = useDispatch()
     const handleCreateBot = async ({widgetSettings, image, systemPrompt}) => {
@@ -20,9 +23,10 @@ const dispatch = useDispatch()
           
           return response.data;
         } catch (error) {
-            console.log(error)
-            dispatch(botFailure(error))
-            toast.error(error)
+          console.error(error);
+   dispatch(botFailure(error.message));
+
+   toast.error(error.message);
         }
       };
 
@@ -35,10 +39,12 @@ const dispatch = useDispatch()
             dispatch(clearError())
 
         } catch (error) {
-            console.log(error.response.data.message)
-           throw error?.response?.data?.message
-           toast.error(error)
-        }
+             console.error(error);
+   dispatch(botFailure(error.message));
+
+   toast.error(error.message);
+
+        } 
       }
 
       return {

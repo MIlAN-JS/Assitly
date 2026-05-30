@@ -53,7 +53,8 @@ const Navbar = () => {
   const privateLinks = [
      {label : "Home", to : "/"},
     { label: 'Dashboard', to: '/dashboard' },
-    { label: 'Bots', to: '/bots' },
+    {label : "Docs", to : "/docs"},
+    
    
   ];
 

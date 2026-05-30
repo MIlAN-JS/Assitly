@@ -5,39 +5,61 @@ import store from "../../../app/store.js";
 import api from "../../../api/api.axios.js";
 
 
+const getBot = async (businessId) => {
 
-const getBot = async(businessId)=>{
-    try {
-        const bot = await api.get(`/bot/get-bot/${businessId}`)
-        return bot.data
-    } catch (error) {
-        console.log(error.response.data.message)
-       throw error?.response?.data?.message
-    }
-}
+   try {
 
-const createBot = async({widgetSettings, image, systemPrompt})=>{
-    try {
+      const bot = await api.get(`/bot/get-bot/${businessId}`);
 
-        const formData = new FormData()
-        formData.append("widgetSettings", JSON.stringify(widgetSettings))
-        formData.append("image", image)
-        formData.append("systemPrompt", systemPrompt)
-        const response = await api.post("/bot/create-bot", formData)
-        console.log(response)
-        return response.data
+      return bot.data;
 
+   } catch (error) {
 
-        
-        
-    } catch (error) {
-      console.log(error.response.data.message)
-       throw error?.response?.data?.message
-    }
-}
+      const message =
+         error?.response?.data?.message ||
+         error?.message ||
+         "Failed to get bot";
+
+      console.log(message);
+
+      throw new Error(message);
+   }
+};
 
 
-export {
-    getBot, 
-    createBot
-}
+const createBot = async ({ widgetSettings, image, systemPrompt }) => {
+
+   try {
+
+      const formData = new FormData();
+
+      formData.append(
+         "widgetSettings",
+         JSON.stringify(widgetSettings)
+      );
+
+      formData.append("image", image);
+
+      formData.append("systemPrompt", systemPrompt);
+
+      const response = await api.post(
+         "/bot/create-bot",
+         formData
+      );
+
+      return response.data;
+
+   } catch (error) {
+
+      const message =
+         error?.response?.data?.message ||
+         error?.message ||
+         "Failed to create bot";
+
+      console.log(message);
+
+      throw new Error(message);
+   }
+};
+
+export { getBot, createBot };
