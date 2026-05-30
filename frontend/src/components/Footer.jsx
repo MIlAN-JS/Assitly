@@ -5,8 +5,11 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
+  const user = useSelector((state) => state.auth.user);
   return (
     <footer className="w-full bg-[#e9f6ea] p-6 md:p-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -23,10 +26,18 @@ export default function Footer() {
             </p>
           </div>
 
-          <button className="mt-8 flex items-center justify-between bg-[#0b3d1f] text-white px-5 py-4 rounded-xl w-full md:w-[320px] hover:opacity-90 transition">
+        {
+          user ? <Link to= "/dashboard" className="mt-8 flex items-center justify-between bg-[#0b3d1f] text-white px-5 py-4 rounded-xl w-full md:w-[320px] hover:opacity-90 transition">
+            <span className="text-sm md:text-base">Dashboard</span>
+            <FaArrowRight size={18} />
+          </Link> : 
+          <Link to= "/signup" className="mt-8 flex items-center justify-between bg-[#0b3d1f] text-white px-5 py-4 rounded-xl w-full md:w-[320px] hover:opacity-90 transition">
             <span className="text-sm md:text-base">Start Free Trial</span>
             <FaArrowRight size={18} />
-          </button>
+          </Link>
+        }
+
+
         </div>
 
         {/* RIGHT LINKS SECTION */}

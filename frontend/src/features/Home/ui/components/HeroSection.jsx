@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiMessageSquare, FiZap, FiShield, FiTrendingUp } from "react-icons/fi";
 import { RiCustomerService2Fill } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 // ── Floating chat bubble animation ──────────────────────────────────────────
 const ChatBubble = ({ message, from, delay, x, y }) => (
@@ -61,6 +62,9 @@ const PartnerLogo = ({ name, icon, color }) => (
 // ── Main Hero ────────────────────────────────────────────────────────────────
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
+
+  const user = useSelector(state => state.auth.user)
+  console.log(user)
 
   useEffect(() => {
     setMounted(true);
@@ -179,20 +183,42 @@ const Hero = () => {
             className="flex flex-col sm:flex-row items-center gap-4 mb-16"
             style={{ animation: "slideUp 0.5s ease 0.3s forwards", opacity: 0 }}
           >
-            <Link
+
+{
+  user ?   <Link
+              to="/dashboard"
+              className="group flex items-center gap-2 bg-[#1a3a2a] text-white text-sm font-semibold px-8 py-3.5 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg shadow-[#1a3a2a]/20"
+            >
+              Dashboard
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-200" size={16} />
+            </Link> : 
+             <Link
               to="/register"
               className="group flex items-center gap-2 bg-[#1a3a2a] text-white text-sm font-semibold px-8 py-3.5 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg shadow-[#1a3a2a]/20"
             >
               Get Started — it's free
               <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-200" size={16} />
             </Link>
-            <Link
+}
+           
+
+
+           {
+            user ?  <Link
+              to="/demo"
+              className="flex items-center gap-2 text-[#1a3a2a] text-sm font-medium border border-[#1a3a2a]/20 px-7 py-3.5 rounded-lg hover:bg-[#1a3a2a]/5 transition-all duration-200"
+            >
+              <FiMessageSquare size={15} />
+              
+            </Link> :  <Link
               to="/demo"
               className="flex items-center gap-2 text-[#1a3a2a] text-sm font-medium border border-[#1a3a2a]/20 px-7 py-3.5 rounded-lg hover:bg-[#1a3a2a]/5 transition-all duration-200"
             >
               <FiMessageSquare size={15} />
               See it in action
             </Link>
+           }
+            
           </div>
 
           {/* stat pills */}

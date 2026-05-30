@@ -13,6 +13,9 @@ import Dashboard from '@/features/dashboard/ui/Dashboard.jsx'
 import CreateBotPage from '@/features/bot/ui/CreateBot.jsx'
 import FaqsPage from '@/features/faq/ui/CreateFaq.jsx'
 import LandingPage from '@/features/Home/ui/LandingPage.jsx'
+import StepEmbed from '@/components/Embed.jsx'
+import Docs from '@/components/Docs.jsx'
+// import StepEmbed from '@/components/Docs.jsx'
 
 const router = createBrowserRouter([
     {
@@ -39,6 +42,14 @@ const router = createBrowserRouter([
                 {
                     path : "/create-faq", 
                     element : <PrivateRoute><FaqsPage/></PrivateRoute>
+                }, 
+                {
+                    path: "/embed", 
+                    element :<StepEmbed/>
+                }, 
+                {
+                    path : "/docs", 
+                    element : <Docs/>
                 }
             ]
            }, 

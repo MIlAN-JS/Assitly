@@ -54,6 +54,7 @@ const Navbar = () => {
      {label : "Home", to : "/"},
     { label: 'Dashboard', to: '/dashboard' },
     {label : "Docs", to : "/docs"},
+    {label : "Embed Code", to : "/embed" }
     
    
   ];
@@ -61,8 +62,10 @@ const Navbar = () => {
   const publicLinks = [
     {label : "Home", to : "/"},
     { label: 'Features', to: '/features' },
-    { label: 'Pricing', to: '/pricing' },
     { label: 'Contact', to: '/contact' },
+    {label :"See Demo"  , to : "/demo"}, 
+     {label : "Docs", to : "/docs"},
+    
     
   ];
 
