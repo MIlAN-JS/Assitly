@@ -20,7 +20,7 @@ const dashboardDataController =async (req , res, next) => {
         res.status(200).json({
             message : "dashboard data fetched successfully",
             success : true, 
-            dashData : {
+            overviewData : {
                 totalConversations, 
                 totalVisitors, 
                 responseTime, 
