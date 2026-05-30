@@ -26,7 +26,7 @@ const dispatch = useDispatch()
         }
       };
 
-      const handleGetBot = async(businessId)=>{
+      const handleGetBot = async(businessId )=>{
         try {
             dispatch(botStart())
             const bot = await getBot(businessId)
